@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starter files</title>
+<style>
+:root { --bg:#f5f7f6; --fg:#17201d; --muted:#5b6a65; --line:#dbe3e0; --accent:#1f6f5c; --accent-fg:#fff; }
+@media (prefers-color-scheme: dark) { :root { --bg:#111816; --fg:#e6eeeb; --muted:#9aaba5; --line:#2a3632; --accent:#5cc2a5; --accent-fg:#0d1513; color-scheme:dark } }
+* { box-sizing:border-box }
+body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif }
+main { max-width:620px; margin:0 auto; padding:48px 16px 64px; display:grid; gap:28px }
+h1 { font-size:2.2rem; line-height:1.1; margin:0 }
+h2 { font-size:1.15rem; margin:0 0 6px }
+p { margin:0; color:var(--muted) }
+.big { display:block; text-align:center; background:var(--accent); color:var(--accent-fg); text-decoration:none; font-weight:600; font-size:1.25rem; padding:20px; border-radius:14px }
+.big:hover { filter:brightness(1.07) }
+ul { list-style:none; margin:0; padding:0; border-top:1px solid var(--line) }
+li { padding:10px 0; border-bottom:1px solid var(--line) }
+li a { color:var(--accent); font-family:ui-monospace,Menlo,monospace; font-size:.95rem }
+.qr { display:flex; gap:16px; align-items:center; flex-wrap:wrap }
+.qr img { width:140px; height:140px; border-radius:8px; background:#fff; padding:6px }
+</style>
+</head>
+<body>
+<main>
+  <div>
+    <h1>Starter files</h1>
+    <p>Geef deze bestanden aan je AI-assistent voordat je gaat bouwen.</p>
+  </div>
+  <a class="big" href="starter_files.zip" download>Download alles (ZIP)</a>
+  <section>
+    <h2>Standaard</h2>
+    <p>Express + Next.js + Supabase</p>
+    <ul>
+      <li><a href="standaard/PROJECT_SETUP.md" download>PROJECT_SETUP.md</a></li>
+      <li><a href="standaard/CODE_REVIEW.md" download>CODE_REVIEW.md</a></li>
+    </ul>
+  </section>
+  <section>
+    <h2>Tetra</h2>
+    <p>Projecten op Tetra</p>
+    <ul>
+      <li><a href="tetra/PROJECT_SETUP.md" download>PROJECT_SETUP.md</a></li>
+      <li><a href="tetra/CODE_REVIEW.md" download>CODE_REVIEW.md</a></li>
+      <li><a href="tetra/OPDRACHT_CRM.md" download>OPDRACHT_CRM.md</a></li>
+    </ul>
+  </section>
+  <div class="qr">
+    <img src="qr.png" alt="QR-code naar deze pagina">
+    <p>Deel deze pagina: <strong>soulbatical.github.io/starter-files</strong></p>
+  </div>
+</main>
+</body>
+</html>
