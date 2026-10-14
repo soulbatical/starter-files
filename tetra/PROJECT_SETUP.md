@@ -31,12 +31,21 @@ npx create-tetra mijn-app
 cd mijn-app
 ```
 
-**Werk je met een AI-assistent?** Kopieer eerst `tetra/project-scaffolding/` uit
-deze repo (of uit `starter_files.zip`) naar `mijn-app/`, en draai `create-tetra`
-daarna pas. Dat geeft je assistent AGENTS.md/CLAUDE.md, Claude Code-hooks en twee
-skills (installeren, een feature via het manifest toevoegen) al vóórdat het eerste
-commando draait. create-tetra accepteert een map die alleen deze bestanden bevat
-als "leeg genoeg" om in te installeren.
+**Werk je met een AI-assistent?** Pak eerst `tetra/project-scaffolding.zip` (uit
+deze repo, of uit `starter_files.zip`) uit **in** `mijn-app/` — niet de map
+`project-scaffolding` zelf erin kopiëren, maar de inhoud ervan:
+
+```bash
+mkdir -p mijn-app
+unzip tetra/project-scaffolding.zip -d mijn-app
+```
+
+en draai `create-tetra` daarna pas. Dat geeft je assistent AGENTS.md/CLAUDE.md,
+Claude Code-hooks en twee skills (installeren, een feature via het manifest
+toevoegen) al vóórdat het eerste commando draait. create-tetra (vanaf versie
+0.1.2) accepteert een map die alleen deze bestanden bevat als "leeg genoeg" om
+in te installeren — een oudere versie geeft nog "map is niet leeg"; draai dan
+eerst `npm view create-tetra version` om te checken welke versie `npx` pakt.
 
 Wat er gebeurt:
 

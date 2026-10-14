@@ -1,10 +1,11 @@
 # Voor je AI-assistent
 
-Dit bestand staat hier al vóórdat `create-tetra` heeft gedraaid — kopieer deze hele
-`project-scaffolding/`-map in een lege projectmap, en draai daarna pas
-`npx create-tetra .`. Dat is bewust: create-tetra staat een map toe die alleen deze
-bestanden (en README.md/.git) bevat, precies zodat je AI-assistent dit al kent
-voordat het eerste commando draait.
+Dit bestand staat hier al vóórdat `create-tetra` heeft gedraaid — de **inhoud** van
+deze map is in een lege projectmap uitgepakt (`unzip project-scaffolding.zip -d
+mijn-app`, niet de map zelf erin gekopieerd), en pas daarna is
+`npx create-tetra .` gedraaid. Dat is bewust: create-tetra (0.1.2+) staat een map
+toe die alleen deze bestanden (en README.md/.git) bevat, precies zodat je
+AI-assistent dit al kent voordat het eerste commando draait.
 
 Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` in deze repo — dit
 bestand vult ze aan met wat een AI-assistent specifiek moet weten over het
