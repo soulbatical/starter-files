@@ -31,6 +31,13 @@ npx create-tetra mijn-app
 cd mijn-app
 ```
 
+**Werk je met een AI-assistent?** Kopieer eerst `tetra/project-scaffolding/` uit
+deze repo (of uit `starter_files.zip`) naar `mijn-app/`, en draai `create-tetra`
+daarna pas. Dat geeft je assistent AGENTS.md/CLAUDE.md, Claude Code-hooks en twee
+skills (installeren, een feature via het manifest toevoegen) al vóórdat het eerste
+commando draait. create-tetra accepteert een map die alleen deze bestanden bevat
+als "leeg genoeg" om in te installeren.
+
 Wat er gebeurt:
 
 1. Je krijgt een korte bevestigingscode en er opent een pagina op tetrasaas.com met dezelfde code.
