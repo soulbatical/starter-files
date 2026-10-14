@@ -4,8 +4,9 @@ Dit bestand staat hier al vóórdat `create-tetra` heeft gedraaid — de **inhou
 deze map is in een lege projectmap uitgepakt (`unzip project-scaffolding.zip -d
 mijn-app`, niet de map zelf erin gekopieerd), en pas daarna is
 `npx create-tetra .` gedraaid. Dat is bewust: create-tetra (0.1.2+) staat een map
-toe die alleen deze bestanden (en README.md/.git) bevat, precies zodat je
-AI-assistent dit al kent voordat het eerste commando draait.
+toe die alleen README.md, CLAUDE.md, AGENTS.md, `.claude/`, `.git/` en
+`.gitignore` bevat, precies zodat je AI-assistent dit al kent voordat het eerste
+commando draait.
 
 Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` in deze repo — dit
 bestand vult ze aan met wat een AI-assistent specifiek moet weten over het
