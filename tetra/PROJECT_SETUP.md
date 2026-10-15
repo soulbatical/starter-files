@@ -31,6 +31,33 @@ npx create-tetra mijn-app
 cd mijn-app
 ```
 
+**Werk je met een AI-assistent?** Zet de agent-scaffolding (AGENTS.md/CLAUDE.md-
+aanvulling, Claude Code-hooks, twee skills) erbovenop, vanuit de map waarin je
+ook de `tetra/`-map van deze repo naast `mijn-app/` hebt staan:
+
+```bash
+bash tetra/apply-project-scaffolding.sh mijn-app
+```
+
+Dit script overschrijft niets: de `.claude/`-boom (hooks + skills) komt erbij,
+en wat create-tetra al in `AGENTS.md`/`CLAUDE.md` schreef (de exacte
+commandolijst, project-rules) blijft staan — de scaffolding-inhoud wordt
+onder een scheidingslijn toegevoegd, niet overheen geschreven. Het is veilig
+om het script twee keer te draaien; een tweede run herkent zijn eigen
+toevoeging en slaat die over. Staat de
+`tetra/`-map ergens anders (bijvoorbeeld na het uitpakken van
+`starter_files.zip`), geef dan het volledige pad naar
+`apply-project-scaffolding.sh` mee.
+
+**Kanttekening (nog niet live):** je zou dit script in theorie ook *vóór*
+`create-tetra` kunnen draaien, in een nog lege map — maar dat vereist niet
+alleen create-tetra ≥0.1.2 (`npm view create-tetra version` om te checken),
+ook de scaffolder die create-tetra zelf ongepind uit de registry haalt
+(`@soulbatical/create-app`) moet zijn eigen, losse leeg-check hebben
+aangepast. Geen van beide is op dit moment gepubliceerd. De volgorde
+hierboven (eerst create-tetra, dan het script) heeft die afhankelijkheid
+niet en is daarom de route die altijd werkt, ook zodra beide wél live zijn.
+
 Wat er gebeurt:
 
 1. Je krijgt een korte bevestigingscode en er opent een pagina op tetrasaas.com met dezelfde code.

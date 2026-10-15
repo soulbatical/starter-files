@@ -1,0 +1,52 @@
+#!/bin/bash
+# Applies tetra/project-scaffolding/ onto an existing project directory —
+# meant to run AFTER `npx create-tetra`, into the directory it just created.
+#
+# .claude/ never collides with anything create-tetra generates, so a plain
+# no-clobber copy is enough there. AGENTS.md and CLAUDE.md do collide:
+# create-tetra's scaffolder ships its own (real project content: exact
+# command list, {{NAME}} substituted, Tetra rules), and this bundle's
+# install/manifest-ritual sections are what the .claude/ hooks and skills
+# cite by number. Neither "skip" nor "overwrite" keeps both, so this appends
+# — create-tetra's own content stays first, this bundle's follows under a
+# separator, and the section numbers resolve regardless of which step ran
+# first (this script, or create-tetra).
+#
+# Safe to run twice: a marker comment in the appended block makes a second
+# run a no-op on AGENTS.md/CLAUDE.md instead of duplicating the append.
+#
+# Usage: apply-project-scaffolding.sh <target-dir>
+set -euo pipefail
+
+target="${1:?usage: apply-project-scaffolding.sh <target-dir>}"
+src="$(cd "$(dirname "${BASH_SOURCE[0]}")/project-scaffolding" && pwd)"
+
+marker='<!-- tetra-project-scaffolding:applied -->'
+
+mkdir -p "$target"
+
+if [ -d "$src/.claude" ]; then
+  mkdir -p "$target/.claude"
+  cp -Rn "$src/.claude/." "$target/.claude/"
+fi
+
+# The marker is the source file's own first line, not something this script
+# injects separately — so a target that already carries it (because it was
+# unzipped there directly, or applied once before) is recognised the same
+# way regardless of which route put it there. That also means idempotency
+# depends on the source still carrying it; check instead of assuming.
+for doc in AGENTS.md CLAUDE.md; do
+  if ! grep -qF "$marker" "$src/$doc" 2>/dev/null; then
+    echo "Waarschuwing: $src/$doc mist de marker-regel — een herhaalde run zal $doc dupliceren." >&2
+  fi
+  if [ -f "$target/$doc" ] && grep -qF "$marker" "$target/$doc" 2>/dev/null; then
+    echo "$doc heeft de scaffolding al — overgeslagen (idempotent)."
+  elif [ -f "$target/$doc" ]; then
+    printf '\n\n---\n\n' >> "$target/$doc"
+    cat "$src/$doc" >> "$target/$doc"
+  else
+    cp "$src/$doc" "$target/$doc"
+  fi
+done
+
+echo "project-scaffolding toegepast op $target"
