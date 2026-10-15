@@ -7,8 +7,16 @@
 // measured that a hook invoked while the shell's cwd is a subdirectory of
 // the project (e.g. the user cd'd into backend/) would otherwise check the
 // wrong package.json and report a false "not installed yet".
+//
+// Delegates the actual diagnosis to `tetra doctor --json` once a project
+// exists, instead of re-implementing Node/license/registry/project checks
+// here — this hook and a human running `npx tetra doctor` by hand always
+// see the same answer, and a future doctor check needs no second copy here.
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+
+const DOCTOR_TIMEOUT_MS = 8000;
 
 try {
   const root = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
@@ -23,28 +31,17 @@ try {
   );
 
   if (existsSync(at('package.json')) && existsSync(at('.tetra'))) {
-    lines.push('Dit project is al door create-tetra ingericht.');
-    lines.push(
-      existsSync(at('.env'))
-        ? '.env is aanwezig.'
-        : 'Let op: .env ontbreekt — npm run dev:local zal falen zonder licentiesleutel.',
-    );
+    lines.push(...runDoctor(root));
   } else {
     // This hook only runs because .claude/settings.json already exists in
     // this directory, so "nothing here at all" can never be the case by the
     // time it fires — the one real branch left is "scaffolding present,
     // create-tetra not yet run" (the "scaffolding before create-tetra"
-    // order). That order needs both create-tetra >=0.1.2 and the matching
-    // @soulbatical/create-app it delegates to, which create-tetra installs
-    // unpinned at install time — neither is published as of this writing
-    // (review measured it against the real registry). Say so, and point at
-    // the route that works today instead of a dead end.
+    // order).
     lines.push('De agent-scaffolding staat er al, maar create-tetra nog niet.');
     lines.push(
-      'Dit vereist create-tetra >=0.1.2 én een bijgewerkte @soulbatical/create-app ' +
-        '— controleer met `npx create-tetra --version`. Is dat nog niet beschikbaar: ' +
-        'verplaats deze bestanden tijdelijk opzij, draai create-tetra in de lege map, ' +
-        'zet ze terug en draai dan tetra/apply-project-scaffolding.sh.',
+      'Draai `npx create-tetra .` in deze map (of `npx create-tetra <naam>` in ' +
+        'een lege map) om het project aan te maken; daarna werkt `npx tetra doctor`.',
     );
   }
 
@@ -52,4 +49,33 @@ try {
 } catch {
   // A status line is a courtesy, not a gate; a failure here must never stop
   // the session from starting.
+}
+
+function runDoctor(root) {
+  try {
+    const result = spawnSync('npx', ['--no-install', 'tetra', 'doctor', '--json'], {
+      cwd: root,
+      encoding: 'utf8',
+      timeout: DOCTOR_TIMEOUT_MS,
+    });
+    if (result.error || typeof result.stdout !== 'string' || result.stdout.trim() === '') {
+      return [
+        '`npx tetra doctor` niet beschikbaar (nog geen `npm install` gedraaid?) — ' +
+          'draai `npm install --include=optional` en probeer het opnieuw.',
+      ];
+    }
+    const report = JSON.parse(result.stdout);
+    const failing = (report.checks ?? []).filter((check) => check.status === 'fail');
+    if (failing.length === 0) {
+      return ['tetra doctor: alle checks groen.'];
+    }
+    const firstIssue = report.issues?.[0];
+    const nextStep = firstIssue?.recovery?.manual ?? firstIssue?.fix ?? 'npx tetra doctor voor details.';
+    return [
+      `tetra doctor: ${failing.length} check(s) falen (${failing.map((c) => c.id).join(', ')}).`,
+      `Volgende stap: ${nextStep}`,
+    ];
+  } catch {
+    return ['`npx tetra doctor` kon niet worden uitgevoerd of gaf geen geldige JSON terug.'];
+  }
 }

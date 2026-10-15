@@ -9,8 +9,10 @@ description: Activeer en installeer Tetra SaaS in de huidige map via npx create-
 2. Controleer de create-tetra-versie: `npx create-tetra --version`. Het
    gedrag bij een verlopen code (stap 6) hangt hiervan af.
 3. Controleer dat de map echt leeg is — create-tetra accepteert vandaag niets
-   anders (zie `PROJECT_SETUP.md` §2 als je al scaffolding-bestanden in de map
-   hebt staan: die horen er pas ná deze stappen bij, niet ervoor).
+   anders, met één uitzondering: README.md/CLAUDE.md/AGENTS.md/.claude mogen
+   er al staan (bijvoorbeeld uit de starter-files-onboarding-bundel, zie
+   `PROJECT_SETUP.md` §2 als dat bestand in je project staat). Die horen er
+   dan al vóór deze stappen bij, niet erna.
 4. Draai `npx create-tetra mijn-app` (of `npx create-tetra .` als je al in de
    bedoelde, lege map staat).
 5. De CLI print een link en een bevestigingscode. Open de link (zelf met curl/een
@@ -28,11 +30,15 @@ description: Activeer en installeer Tetra SaaS in de huidige map via npx create-
    verbruikt of onbruikbaar geworden (op elke versie). Draai het commando
    opnieuw voor een nieuwe.
 9. Na een succesvolle install: volg de "Volgende stappen" die de CLI zelf
-   print (`npm run dev:local`, Supabase CLI). Staat de agent-scaffolding er
-   nog niet (dit project heeft zelf geen `tetra/apply-project-scaffolding.sh`
-   — dat script leeft in de starter-files-repo of -zip, niet in een
-   gegenereerd project): haal het daar vandaan en draai het tegen deze
-   projectmap, zie `PROJECT_SETUP.md` §2.
+   print (`npm install --include=optional`, `npm run dev:local`, Supabase
+   CLI), en draai dan `npx tetra doctor --json` om te bevestigen dat Node,
+   licentie, registry-toegang en het project zelf in orde zijn. Zie je
+   `.claude/skills/tetra-install/` al in je project (dit bestand): de
+   agent-scaffolding staat er dan al — een recente `create-tetra` voegt die
+   automatisch toe bij het scaffolden, niets extra te doen. Op een
+   ouder project zonder deze bestanden: haal `tetra/project-scaffolding/` en
+   `tetra/apply-project-scaffolding.sh` uit soulbatical/starter-files en
+   draai dat script tegen je projectmap.
 
 Meld een afwijking van dit stappenplan (een andere foutmelding, een andere
 wachttijd) expliciet in je verslag — dat is precies het soort feedback waarmee
