@@ -29,9 +29,11 @@ description: Activeer en installeer Tetra SaaS in de huidige map via npx create-
    verbruikt of onbruikbaar geworden (op elke versie). Draai het commando
    opnieuw voor een nieuwe.
 9. Na een succesvolle install: volg de "Volgende stappen" die de CLI zelf
-   print (`npm run dev:local`, Supabase CLI), en draai dan
-   `bash tetra/apply-project-scaffolding.sh mijn-app` om de agent-scaffolding
-   (als die nog niet aanwezig was) toe te voegen.
+   print (`npm run dev:local`, Supabase CLI). Staat de agent-scaffolding er
+   nog niet (dit project heeft zelf geen `tetra/apply-project-scaffolding.sh`
+   — dat script leeft in de starter-files-repo of -zip, niet in een
+   gegenereerd project): haal het daar vandaan en draai het tegen deze
+   projectmap, zie `PROJECT_SETUP.md` §2.
 
 Meld een afwijking van dit stappenplan (een andere foutmelding, een andere
 wachttijd) expliciet in je verslag — dat is precies het soort feedback waarmee

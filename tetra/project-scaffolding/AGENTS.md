@@ -1,8 +1,9 @@
 # Voor je AI-assistent
 
-Dit deel is toegevoegd door `tetra/apply-project-scaffolding.sh`, normaal
-gesproken ná `npx create-tetra` (zie `PROJECT_SETUP.md` §2). Staat er
-hierboven nog tekst (vóór de `---`): dat is wat create-tetra zelf voor dit
+Dit deel kwam hier via `tetra/apply-project-scaffolding.sh`, normaal gesproken
+ná `npx create-tetra` (zie `PROJECT_SETUP.md` §2) — of, op create-tetra ≥0.1.2,
+rechtstreeks uitgepakt in een nog lege projectmap vóór `create-tetra`. Staat
+er hierboven nog tekst (vóór de `---`): dat is wat create-tetra zelf voor dit
 project gegenereerd heeft (de exacte commandolijst, project-rules) — die
 blijft gelden, dit vult hem aan.
 

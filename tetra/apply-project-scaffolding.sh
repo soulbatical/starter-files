@@ -12,11 +12,16 @@
 # separator, and the section numbers resolve regardless of which step ran
 # first (this script, or create-tetra).
 #
+# Safe to run twice: a marker comment in the appended block makes a second
+# run a no-op on AGENTS.md/CLAUDE.md instead of duplicating the append.
+#
 # Usage: apply-project-scaffolding.sh <target-dir>
 set -euo pipefail
 
 target="${1:?usage: apply-project-scaffolding.sh <target-dir>}"
 src="$(cd "$(dirname "${BASH_SOURCE[0]}")/project-scaffolding" && pwd)"
+
+marker='<!-- tetra-project-scaffolding:applied -->'
 
 mkdir -p "$target"
 
@@ -26,11 +31,14 @@ if [ -d "$src/.claude" ]; then
 fi
 
 for doc in AGENTS.md CLAUDE.md; do
-  if [ -f "$target/$doc" ]; then
-    printf '\n\n---\n\n' >> "$target/$doc"
+  if [ -f "$target/$doc" ] && grep -qF "$marker" "$target/$doc" 2>/dev/null; then
+    echo "$doc heeft de scaffolding al — overgeslagen (idempotent)."
+  elif [ -f "$target/$doc" ]; then
+    printf '\n\n---\n\n%s\n\n' "$marker" >> "$target/$doc"
     cat "$src/$doc" >> "$target/$doc"
   else
-    cp "$src/$doc" "$target/$doc"
+    printf '%s\n\n' "$marker" > "$target/$doc"
+    cat "$src/$doc" >> "$target/$doc"
   fi
 done
 

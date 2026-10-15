@@ -42,7 +42,9 @@ bash tetra/apply-project-scaffolding.sh mijn-app
 Dit script overschrijft niets: de `.claude/`-boom (hooks + skills) komt erbij,
 en wat create-tetra al in `AGENTS.md`/`CLAUDE.md` schreef (de exacte
 commandolijst, project-rules) blijft staan — de scaffolding-inhoud wordt
-onder een scheidingslijn toegevoegd, niet overheen geschreven. Staat de
+onder een scheidingslijn toegevoegd, niet overheen geschreven. Het is veilig
+om het script twee keer te draaien; een tweede run herkent zijn eigen
+toevoeging en slaat die over. Staat de
 `tetra/`-map ergens anders (bijvoorbeeld na het uitpakken van
 `starter_files.zip`), geef dan het volledige pad naar
 `apply-project-scaffolding.sh` mee.

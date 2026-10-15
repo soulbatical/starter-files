@@ -29,6 +29,16 @@ try {
         ? '.env is aanwezig.'
         : 'Let op: .env ontbreekt — npm run dev:local zal falen zonder licentiesleutel.',
     );
+  } else if (existsSync(at('AGENTS.md')) || existsSync(at('.claude'))) {
+    // The scaffolding is already here but create-tetra has not run yet —
+    // the "scaffolding before create-tetra" order, which only works on
+    // create-tetra >=0.1.2 (its own directoryIsFree allowlist). On an
+    // older version `npx create-tetra .` refuses with "map is niet leeg".
+    lines.push('De agent-scaffolding staat er al, maar create-tetra nog niet.');
+    lines.push(
+      'Controleer eerst `npx create-tetra --version`: dit werkt alleen op 0.1.2+. ' +
+        'Op een oudere versie weigert `npx create-tetra .` deze map als "niet leeg".',
+    );
   } else {
     lines.push('Dit project is nog niet geïnstalleerd. Draai eerst: npx create-tetra .');
     lines.push('Zie AGENTS.md §1 voor het goedkeuringsproces — het gedrag bij een verlopen code hangt van de create-tetra-versie af.');
