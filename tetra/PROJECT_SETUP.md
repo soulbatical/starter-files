@@ -31,13 +31,21 @@ npx create-tetra mijn-app
 cd mijn-app
 ```
 
-**Werk je met een AI-assistent?** Pak eerst `tetra/project-scaffolding.zip` (uit
-deze repo, of uit `starter_files.zip`) uit **in** `mijn-app/` — niet de map
-`project-scaffolding` zelf erin kopiëren, maar de inhoud ervan:
+**Werk je met een AI-assistent?** Zet eerst de inhoud van `tetra/project-scaffolding/`
+in `mijn-app/` — niet de map zelf erin kopiëren, maar de inhoud ervan:
 
 ```bash
 mkdir -p mijn-app
 unzip tetra/project-scaffolding.zip -d mijn-app
+```
+
+Kwam je via `starter_files.zip` (de map staat daar uitgepakt in, niet als losse
+zip)? Pak die eerst volledig uit en kopieer dan de inhoud:
+
+```bash
+mkdir -p /tmp/sf mijn-app
+unzip starter_files.zip -d /tmp/sf
+cp -R /tmp/sf/starter_files/tetra/project-scaffolding/. mijn-app/
 ```
 
 en draai `create-tetra` daarna pas. Dat geeft je assistent AGENTS.md/CLAUDE.md,
