@@ -31,9 +31,21 @@ npx create-tetra mijn-app
 cd mijn-app
 ```
 
-**Werk je met een AI-assistent?** Zet de agent-scaffolding (AGENTS.md/CLAUDE.md-
-aanvulling, Claude Code-hooks, twee skills) erbovenop, vanuit de map waarin je
-ook de `tetra/`-map van deze repo naast `mijn-app/` hebt staan:
+`tetra/project-scaffolding/` in deze repo wordt **gegenereerd** vanuit
+`packages/create-app/src/agent-scaffolding/` in soulbatical/tetra (zie
+`scripts/export-starter-scaffolding.mjs` daar) — werk er niet handmatig in;
+wijzigingen gaan via tetra, niet via deze repo.
+
+**Werk je met een AI-assistent?** Check eerst of je dit al automatisch
+hebt gekregen — `npm view @soulbatical/create-app version` (≥0.2.32): zo ja,
+dan heeft `create-tetra` de agent-scaffolding (AGENTS.md/CLAUDE.md-aanvulling,
+Claude Code-hooks, twee skills) al voor je toegepast, zie je dus al
+`.claude/skills/tetra-install/` in `mijn-app/`, en kun je de rest van dit
+stuk overslaan.
+
+**Oudere `@soulbatical/create-app` (< 0.2.32), of je wilt het los draaien?**
+Zet de scaffolding er handmatig bovenop, vanuit de map waarin je ook de
+`tetra/`-map van deze repo naast `mijn-app/` hebt staan:
 
 ```bash
 bash tetra/apply-project-scaffolding.sh mijn-app
@@ -43,20 +55,19 @@ Dit script overschrijft niets: de `.claude/`-boom (hooks + skills) komt erbij,
 en wat create-tetra al in `AGENTS.md`/`CLAUDE.md` schreef (de exacte
 commandolijst, project-rules) blijft staan — de scaffolding-inhoud wordt
 onder een scheidingslijn toegevoegd, niet overheen geschreven. Het is veilig
-om het script twee keer te draaien; een tweede run herkent zijn eigen
-toevoeging en slaat die over. Staat de
-`tetra/`-map ergens anders (bijvoorbeeld na het uitpakken van
+om het script twee keer te draaien, ook als de automatische variant al liep:
+een tweede run herkent zijn eigen toevoeging (de
+`<!-- tetra-project-scaffolding:applied -->`-marker) en slaat die over. Staat
+de `tetra/`-map ergens anders (bijvoorbeeld na het uitpakken van
 `starter_files.zip`), geef dan het volledige pad naar
 `apply-project-scaffolding.sh` mee.
 
-**Kanttekening (nog niet live):** je zou dit script in theorie ook *vóór*
-`create-tetra` kunnen draaien, in een nog lege map — maar dat vereist niet
-alleen create-tetra ≥0.1.2 (`npm view create-tetra version` om te checken),
-ook de scaffolder die create-tetra zelf ongepind uit de registry haalt
-(`@soulbatical/create-app`) moet zijn eigen, losse leeg-check hebben
-aangepast. Geen van beide is op dit moment gepubliceerd. De volgorde
-hierboven (eerst create-tetra, dan het script) heeft die afhankelijkheid
-niet en is daarom de route die altijd werkt, ook zodra beide wél live zijn.
+**Kanttekening:** je zou dit script in theorie ook *vóór* `create-tetra`
+kunnen draaien, in een nog lege map. Dat vereist zowel create-tetra ≥0.1.2
+als een `@soulbatical/create-app` die zijn eigen, losse leeg-check voor
+precies deze bestanden toestaat (beide zijn dat inmiddels, zie boven) — maar
+de volgorde hierboven (eerst create-tetra, dan dit script als fallback) werkt
+op élke gepubliceerde versie en blijft daarom de aanbevolen route.
 
 Wat er gebeurt:
 

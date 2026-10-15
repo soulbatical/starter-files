@@ -2,15 +2,23 @@
 
 # Voor je AI-assistent
 
-Dit deel kwam hier via `tetra/apply-project-scaffolding.sh`, normaal gesproken
-ná `npx create-tetra` (zie `PROJECT_SETUP.md` §2 voor waarom dat de route is
-die vandaag werkt). Staat er hierboven nog tekst (vóór de `---`): dat is wat
-create-tetra zelf voor dit project gegenereerd heeft (de exacte
-commandolijst, project-rules) — die blijft gelden, dit vult hem aan.
+Dit deel komt uit Tetra's agent-scaffolding (canonieke bron:
+`packages/create-app/src/agent-scaffolding/` in soulbatical/tetra). In een
+project gemaakt met een recente `npx create-tetra` is dit automatisch
+toegevoegd, bovenop wat create-tetra zelf al voor
+dit project gegenereerd had. Staat er hierboven nog tekst (vóór de `---`):
+dat is die projectspecifieke content (de exacte commandolijst,
+project-rules) — die blijft gelden, dit vult hem aan. Kreeg je dit bestand
+los, bijvoorbeeld via `tetra/apply-project-scaffolding.sh` uit
+soulbatical/starter-files voor onboarding-cursisten: zelfde inhoud, zelfde
+regels.
 
-Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` in deze repo — dit
-bestand vult ze aan met wat een AI-assistent specifiek moet weten over het
-installatie- en manifestproces zelf, niet over de bouwmethodiek.
+Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` als die in
+je project staan (de onboarding-bundel) — dit bestand vult ze aan met wat een
+AI-assistent specifiek moet weten over het installatie- en manifestproces
+zelf, niet over de bouwmethodiek. Staan die bestanden er niet (een gewoon
+`create-tetra`-project): kijk dan naar `docs/tetra/BUILD-A-SYSTEM.md` en
+`docs/plan.md` in dit project.
 
 ## 1. Tetra activeren en installeren
 
@@ -44,12 +52,17 @@ goedkeuring verbruikt of onbruikbaar geworden (op elke versie) — draai het
 commando dan opnieuw voor een nieuwe goedkeuring. Dat staat dan ook letterlijk
 in de foutmelding.
 
+Twijfel je of je omgeving klaar is (Node-versie, licentie, registry-toegang,
+project-status): draai `npx tetra doctor --json` — zie sectie 6 hieronder.
+
 ## 2. Tetra eerst — ook tijdens het installeren
 
 Vóór je zelf iets bouwt: zoek of Tetra het al heeft. Dat geldt voor auth, CRUD,
 formulieren, tabellen, dashboards, planning — niet alleen voor losse functies maar
 ook voor hele schermen en workflows. Zie `PROJECT_SETUP.md` §1 en de
-Tetra-inventaristabel in §22 voor hoe je dat onderzoek vastlegt.
+Tetra-inventaristabel in §22 als dat bestand in je project staat voor hoe je
+dat onderzoek vastlegt; anders kijk naar `docs/tetra/BUILD-A-SYSTEM.md` in dit
+project.
 
 ## 3. Het manifest-ritueel
 
@@ -66,6 +79,12 @@ Na `migration --write`: `supabase db reset` lokaal om de nieuwe migratie te test
 **Nooit** met de hand in `.tetra/generated/` wijzigen — dat verdwijnt bij de
 volgende compile. Wijzig het manifest, compileer opnieuw.
 
+Een `required` enum/status-veld krijgt altijd een `defaultValue` in het
+manifest. Zonder `defaultValue` toont het gegenereerde formulier de eerste
+optie wel visueel geselecteerd, maar de form-state blijft leeg totdat de
+gebruiker het veld zelf aanraakt — de eerste keer op "Create" klikken doet dan
+stil niets.
+
 ## 4. Vóór je een taak "klaar" meldt
 
 ```bash
@@ -76,10 +95,24 @@ npm run build
 
 Alle drie groen, en de app heeft ook echt gedraaid (`npm run dev:local`) met het
 scherm dat je net hebt gebouwd. "Tests zijn groen" is niet hetzelfde als "ik heb het
-gezien werken" — zie `PROJECT_SETUP.md` §26, gouden regel 5.
+gezien werken" — zie `PROJECT_SETUP.md` §26, gouden regel 5, als dat bestand
+in je project staat.
 
 ## 5. Wat hier niet hoort
 
 Dit bestand gaat over het gereedschap (installeren, manifesten, testen). De
 productbeschrijving, het PRD en het statusblok horen in `docs/` van het project
-zelf, niet hier — zie `PROJECT_SETUP.md` §3 en §25.
+zelf, niet hier — zie `PROJECT_SETUP.md` §3 en §25 als dat bestand in je
+project staat, anders `docs/README.md` en `docs/plan.md` van dit project.
+
+## 6. `tetra doctor`
+
+```bash
+npx tetra doctor --json
+```
+
+Eén call die rapporteert: Node-versie, licentie (offline geverifieerd, geen
+waarden in de output), registry-toegang, en projectstatus (manifest geldig,
+gegenereerde output actueel, lokale Supabase bereikbaar + vrije poorten).
+Gebruik dit als eerste stap bij elke onverklaarde installatie- of buildfout,
+vóór je zelf gaat zoeken — de "volgende stap" in de output wijst je door.

@@ -17,6 +17,10 @@ Vul in `manifests/<naam>.json`:
 - de rollen en wie wat mag (`list`, `read`, `create`, `update`, `delete`);
 - zoeken/filters/sortering/paginering als relevant;
 - lijst/detail/formulier-weergave;
+- **elk `required` enum/status-veld krijgt een `defaultValue`** — zonder
+  default toont het gegenereerde formulier de eerste optie wel visueel
+  geselecteerd, maar de form-state blijft leeg totdat de gebruiker het veld
+  zelf aanraakt, en de eerste submit doet dan stil niets;
 - `needsDecision` voor open vragen — niet gokken, dit expliciet laten staan.
 
 ```bash
@@ -35,6 +39,7 @@ npm test
 ```
 
 Zoek vóór je een `needsDecision` zelf invult of een bedrijfsregel toevoegt eerst of
-een bestaande Tetra-module dit al dekt (zie AGENTS.md §2 / PROJECT_SETUP.md §22).
-Alleen wat daar echt niet in past, wordt eigen code naast de gegenereerde laag —
-en dat hoort dan in `backend/src/modules/<feature>/`, niet in `.tetra/generated/`.
+een bestaande Tetra-module dit al dekt (zie `AGENTS.md` §2, en `PROJECT_SETUP.md`
+§22 als dat bestand in je project staat). Alleen wat daar echt niet in past,
+wordt eigen code naast de gegenereerde laag — en dat hoort dan in
+`backend/src/modules/<feature>/`, niet in `.tetra/generated/`.
