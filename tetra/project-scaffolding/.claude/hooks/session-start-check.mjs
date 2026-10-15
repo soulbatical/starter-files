@@ -29,19 +29,23 @@ try {
         ? '.env is aanwezig.'
         : 'Let op: .env ontbreekt — npm run dev:local zal falen zonder licentiesleutel.',
     );
-  } else if (existsSync(at('AGENTS.md')) || existsSync(at('.claude'))) {
-    // The scaffolding is already here but create-tetra has not run yet —
-    // the "scaffolding before create-tetra" order, which only works on
-    // create-tetra >=0.1.2 (its own directoryIsFree allowlist). On an
-    // older version `npx create-tetra .` refuses with "map is niet leeg".
+  } else {
+    // This hook only runs because .claude/settings.json already exists in
+    // this directory, so "nothing here at all" can never be the case by the
+    // time it fires — the one real branch left is "scaffolding present,
+    // create-tetra not yet run" (the "scaffolding before create-tetra"
+    // order). That order needs both create-tetra >=0.1.2 and the matching
+    // @soulbatical/create-app it delegates to, which create-tetra installs
+    // unpinned at install time — neither is published as of this writing
+    // (review measured it against the real registry). Say so, and point at
+    // the route that works today instead of a dead end.
     lines.push('De agent-scaffolding staat er al, maar create-tetra nog niet.');
     lines.push(
-      'Controleer eerst `npx create-tetra --version`: dit werkt alleen op 0.1.2+. ' +
-        'Op een oudere versie weigert `npx create-tetra .` deze map als "niet leeg".',
+      'Dit vereist create-tetra >=0.1.2 én een bijgewerkte @soulbatical/create-app ' +
+        '— controleer met `npx create-tetra --version`. Is dat nog niet beschikbaar: ' +
+        'verplaats deze bestanden tijdelijk opzij, draai create-tetra in de lege map, ' +
+        'zet ze terug en draai dan tetra/apply-project-scaffolding.sh.',
     );
-  } else {
-    lines.push('Dit project is nog niet geïnstalleerd. Draai eerst: npx create-tetra .');
-    lines.push('Zie AGENTS.md §1 voor het goedkeuringsproces — het gedrag bij een verlopen code hangt van de create-tetra-versie af.');
   }
 
   process.stdout.write(lines.join('\n') + '\n');

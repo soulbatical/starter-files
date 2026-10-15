@@ -30,15 +30,18 @@ if [ -d "$src/.claude" ]; then
   cp -Rn "$src/.claude/." "$target/.claude/"
 fi
 
+# The marker is the source file's own first line, not something this script
+# injects separately — so a target that already carries it (because it was
+# unzipped there directly, or applied once before) is recognised the same
+# way regardless of which route put it there.
 for doc in AGENTS.md CLAUDE.md; do
   if [ -f "$target/$doc" ] && grep -qF "$marker" "$target/$doc" 2>/dev/null; then
     echo "$doc heeft de scaffolding al — overgeslagen (idempotent)."
   elif [ -f "$target/$doc" ]; then
-    printf '\n\n---\n\n%s\n\n' "$marker" >> "$target/$doc"
+    printf '\n\n---\n\n' >> "$target/$doc"
     cat "$src/$doc" >> "$target/$doc"
   else
-    printf '%s\n\n' "$marker" > "$target/$doc"
-    cat "$src/$doc" >> "$target/$doc"
+    cp "$src/$doc" "$target/$doc"
   fi
 done
 

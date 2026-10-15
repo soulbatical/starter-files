@@ -1,11 +1,12 @@
+<!-- tetra-project-scaffolding:applied -->
+
 # Voor je AI-assistent
 
 Dit deel kwam hier via `tetra/apply-project-scaffolding.sh`, normaal gesproken
-ná `npx create-tetra` (zie `PROJECT_SETUP.md` §2) — of, op create-tetra ≥0.1.2,
-rechtstreeks uitgepakt in een nog lege projectmap vóór `create-tetra`. Staat
-er hierboven nog tekst (vóór de `---`): dat is wat create-tetra zelf voor dit
-project gegenereerd heeft (de exacte commandolijst, project-rules) — die
-blijft gelden, dit vult hem aan.
+ná `npx create-tetra` (zie `PROJECT_SETUP.md` §2 voor waarom dat de route is
+die vandaag werkt). Staat er hierboven nog tekst (vóór de `---`): dat is wat
+create-tetra zelf voor dit project gegenereerd heeft (de exacte
+commandolijst, project-rules) — die blijft gelden, dit vult hem aan.
 
 Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` in deze repo — dit
 bestand vult ze aan met wat een AI-assistent specifiek moet weten over het

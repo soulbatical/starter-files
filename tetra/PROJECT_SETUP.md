@@ -49,12 +49,14 @@ toevoeging en slaat die over. Staat de
 `starter_files.zip`), geef dan het volledige pad naar
 `apply-project-scaffolding.sh` mee.
 
-**Kanttekening (nog niet live):** create-tetra 0.1.2 voegt zelf een allowlist
-toe waarmee je dit script ook *vóór* `create-tetra` mag draaien, in een nog
-lege map. Tot die versie gepubliceerd is (`npm view create-tetra version` om
-te checken), accepteert create-tetra alleen een echt lege map — de volgorde
-hierboven (eerst create-tetra, dan het script) is daarom de route die altijd
-werkt, ook na 0.1.2.
+**Kanttekening (nog niet live):** je zou dit script in theorie ook *vóór*
+`create-tetra` kunnen draaien, in een nog lege map — maar dat vereist niet
+alleen create-tetra ≥0.1.2 (`npm view create-tetra version` om te checken),
+ook de scaffolder die create-tetra zelf ongepind uit de registry haalt
+(`@soulbatical/create-app`) moet zijn eigen, losse leeg-check hebben
+aangepast. Geen van beide is op dit moment gepubliceerd. De volgorde
+hierboven (eerst create-tetra, dan het script) heeft die afhankelijkheid
+niet en is daarom de route die altijd werkt, ook zodra beide wél live zijn.
 
 Wat er gebeurt:
 

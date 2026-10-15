@@ -1,3 +1,5 @@
+<!-- tetra-project-scaffolding:applied -->
+
 # Voor Claude Code
 
 Dit deel is toegevoegd door `tetra/apply-project-scaffolding.sh`, normaal
