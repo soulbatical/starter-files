@@ -9,9 +9,9 @@
 // Write and MultiEdit all carry the target as that one field, and an earlier
 // version of this hook stringified the entire tool_input instead — which
 // also matches the *content* being written, not just where it is written.
-// Review measured that blocking a plain edit to this scaffolding's own
-// AGENTS.md, a .gitignore line, or a source comment that merely mentions
-// the path.
+// Review measured that version blocking a plain edit to this scaffolding's
+// own AGENTS.md, a .gitignore line, and a source comment that merely
+// mentioned the path — none of which write to .tetra/generated/ at all.
 //
 // Anything unexpected (malformed JSON, a missing field, a thrown error) exits
 // 0 rather than letting an exception escape with whatever exit code Node

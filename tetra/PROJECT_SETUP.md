@@ -31,41 +31,28 @@ npx create-tetra mijn-app
 cd mijn-app
 ```
 
-**Werk je met een AI-assistent?** Zet de agent-scaffolding (AGENTS.md/CLAUDE.md,
-Claude Code-hooks, twee skills) erbovenop **ná** `create-tetra`, niet ervoor — dat
-werkt op elke create-tetra-versie, vandaag inclusief. Pas op een latere versie
-mag het ook vóóraf (zie de kanttekening onderaan).
+**Werk je met een AI-assistent?** Zet de agent-scaffolding (AGENTS.md/CLAUDE.md-
+aanvulling, Claude Code-hooks, twee skills) erbovenop, vanuit de map waarin je
+ook de `tetra/`-map van deze repo naast `mijn-app/` hebt staan:
 
 ```bash
-node --version            # moet v24.x zijn
-npx create-tetra mijn-app
-cd mijn-app
+bash tetra/apply-project-scaffolding.sh mijn-app
 ```
 
-Nu de scaffolding erbovenop, zonder iets te overschrijven dat create-tetra zelf
-al neerzette (`-n` = no-clobber: alleen bestanden toevoegen die er nog niet zijn,
-zoals de hele `.claude/`-boom — je eigen README.md/CLAUDE.md/AGENTS.md van
-create-tetra blijven staan):
-
-```bash
-# vanuit mijn-app/: de losse zip van deze repo
-unzip -n ../tetra/project-scaffolding.zip -d .
-
-# of, als je via starter_files.zip kwam (die bevat de map al uitgepakt, geen
-# nested zip) — pas het pad in de tweede regel aan naar waar je hem uitpakte:
-cp -Rn /pad/naar/starter_files/tetra/project-scaffolding/. .
-```
-
-Dat laatste commando draait vanuit `mijn-app/`; de paden ervoor gaan uit van een
-map waarin je ook de `tetra/`-map van deze repo naast `mijn-app/` hebt staan —
-staat dat ergens anders, geef dan het volledige pad naar de zip of de map.
+Dit script overschrijft niets: de `.claude/`-boom (hooks + skills) komt erbij,
+en wat create-tetra al in `AGENTS.md`/`CLAUDE.md` schreef (de exacte
+commandolijst, project-rules) blijft staan — de scaffolding-inhoud wordt
+onder een scheidingslijn toegevoegd, niet overheen geschreven. Staat de
+`tetra/`-map ergens anders (bijvoorbeeld na het uitpakken van
+`starter_files.zip`), geef dan het volledige pad naar
+`apply-project-scaffolding.sh` mee.
 
 **Kanttekening (nog niet live):** create-tetra 0.1.2 voegt zelf een allowlist
-toe waarmee je de scaffolding ook *vóór* `create-tetra` mag neerzetten in een
-nog lege map. Tot die versie gepubliceerd is (`npm view create-tetra version`
-om te checken), accepteert create-tetra alleen een echt lege map — de volgorde
-hierboven (eerst create-tetra, dan de scaffolding erbovenop) is daarom de
-route die altijd werkt, ook na 0.1.2.
+toe waarmee je dit script ook *vóór* `create-tetra` mag draaien, in een nog
+lege map. Tot die versie gepubliceerd is (`npm view create-tetra version` om
+te checken), accepteert create-tetra alleen een echt lege map — de volgorde
+hierboven (eerst create-tetra, dan het script) is daarom de route die altijd
+werkt, ook na 0.1.2.
 
 Wat er gebeurt:
 

@@ -1,11 +1,10 @@
 # Voor je AI-assistent
 
-Deze map wordt normaal gesproken ná `npx create-tetra` erbovenop gezet (zie
-`PROJECT_SETUP.md` §2) — niet ervoor. Dat werkt op elke create-tetra-versie.
-Staat dit bestand er toch al vóór create-tetra (op een create-tetra ≥0.1.2,
-zie de kanttekening in `PROJECT_SETUP.md` §2): dan is dat ook goed, want
-create-tetra vanaf die versie staat een map toe die alleen README.md,
-CLAUDE.md, AGENTS.md, `.claude/`, `.git/`, `.gitignore` en `.DS_Store` bevat.
+Dit deel is toegevoegd door `tetra/apply-project-scaffolding.sh`, normaal
+gesproken ná `npx create-tetra` (zie `PROJECT_SETUP.md` §2). Staat er
+hierboven nog tekst (vóór de `---`): dat is wat create-tetra zelf voor dit
+project gegenereerd heeft (de exacte commandolijst, project-rules) — die
+blijft gelden, dit vult hem aan.
 
 Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` in deze repo — dit
 bestand vult ze aan met wat een AI-assistent specifiek moet weten over het
