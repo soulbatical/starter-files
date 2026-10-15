@@ -31,7 +31,7 @@ try {
     );
   } else {
     lines.push('Dit project is nog niet geïnstalleerd. Draai eerst: npx create-tetra .');
-    lines.push('Zie AGENTS.md §1 voor het goedkeuringsproces — wacht erop, herstart niet.');
+    lines.push('Zie AGENTS.md §1 voor het goedkeuringsproces — het gedrag bij een verlopen code hangt van de create-tetra-versie af.');
   }
 
   process.stdout.write(lines.join('\n') + '\n');

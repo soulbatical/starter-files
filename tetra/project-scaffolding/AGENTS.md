@@ -1,20 +1,20 @@
 # Voor je AI-assistent
 
-Dit bestand staat hier al vóórdat `create-tetra` heeft gedraaid — de **inhoud** van
-deze map is in een lege projectmap uitgepakt (`unzip project-scaffolding.zip -d
-mijn-app`, niet de map zelf erin gekopieerd), en pas daarna is
-`npx create-tetra .` gedraaid. Dat is bewust: create-tetra (0.1.2+) staat een map
-toe die alleen README.md, CLAUDE.md, AGENTS.md, `.claude/`, `.git/` en
-`.gitignore` bevat, precies zodat je AI-assistent dit al kent voordat het eerste
-commando draait.
+Deze map wordt normaal gesproken ná `npx create-tetra` erbovenop gezet (zie
+`PROJECT_SETUP.md` §2) — niet ervoor. Dat werkt op elke create-tetra-versie.
+Staat dit bestand er toch al vóór create-tetra (op een create-tetra ≥0.1.2,
+zie de kanttekening in `PROJECT_SETUP.md` §2): dan is dat ook goed, want
+create-tetra vanaf die versie staat een map toe die alleen README.md,
+CLAUDE.md, AGENTS.md, `.claude/`, `.git/`, `.gitignore` en `.DS_Store` bevat.
 
 Lees ook `PROJECT_SETUP.md`, `OPDRACHT_CRM.md` en `CODE_REVIEW.md` in deze repo — dit
 bestand vult ze aan met wat een AI-assistent specifiek moet weten over het
 installatie- en manifestproces zelf, niet over de bouwmethodiek.
 
-## 1. Tetra activeren en installeren — wacht, herstart niet
+## 1. Tetra activeren en installeren
 
-`npx create-tetra .` vraagt een eenmalige browsergoedkeuring:
+`npx create-tetra .` (of `npx create-tetra mijn-app` in een lege map) vraagt een
+eenmalige browsergoedkeuring:
 
 1. De CLI print een link en een bevestigingscode, en wacht.
 2. Open de link zelf als je dat kunt (curl/headless browser), of vraag een mens dat
@@ -23,18 +23,24 @@ installatie- en manifestproces zelf, niet over de bouwmethodiek.
    en klik "Approve" op de pagina die daarna verschijnt.
 4. De CLI pollt dit zelf af en gaat door zodra je hebt goedgekeurd.
 
-**Herstart dit commando niet terwijl het wacht.** Sinds create-tetra 0.1.2:
-- een trage of kort haperende verbinding met de control plane wordt zelf opnieuw
-  geprobeerd;
-- een goedkeuringscode die verloopt voordat je klaar bent, wordt automatisch
-  vervangen door een nieuwe (begrensd, met een duidelijke melding en een nieuwe
-  link) — je hoeft niet terug naar stap 1;
-- de CLI print exact tot welk tijdstip hij wacht. Zolang dat tijdstip niet voorbij
-  is, is er niets stuk en hoef je niets te doen buiten de browser/mail-stap.
+**Controleer eerst welke versie je draait: `npx create-tetra --version`.** Het
+gedrag bij een verlopen code verschilt:
 
-Zie je toch een harde foutmelding (bijvoorbeeld na "Goedgekeurd." een foutmelding
-over je toegang), dan is de goedkeuring verbruikt of onbruikbaar geworden — draai
-het commando dan opnieuw voor een nieuwe goedkeuring. Dat staat dan ook letterlijk
+- **≥ 0.1.2:** herstart dit commando niet terwijl het wacht. Een trage of kort
+  haperende verbinding met de control plane wordt zelf opnieuw geprobeerd, en
+  een goedkeuringscode die verloopt voordat je klaar bent wordt automatisch
+  vervangen door een nieuwe (begrensd, met een duidelijke melding en een
+  nieuwe link) — je hoeft niet terug naar stap 1. De CLI print exact tot welk
+  tijdstip hij wacht; zolang dat niet voorbij is, hoef je niets te doen buiten
+  de browser/mail-stap.
+- **0.1.1 of ouder:** geen automatisch herstel. Bij "De goedkeuring is
+  verlopen" moet je het commando zelf opnieuw draaien voor een nieuwe code —
+  hier is herstarten wél de juiste actie, niet een foutherstel waar je op moet
+  wachten.
+
+Zie je ná "Goedgekeurd." toch een harde foutmelding over je toegang, dan is de
+goedkeuring verbruikt of onbruikbaar geworden (op elke versie) — draai het
+commando dan opnieuw voor een nieuwe goedkeuring. Dat staat dan ook letterlijk
 in de foutmelding.
 
 ## 2. Tetra eerst — ook tijdens het installeren
