@@ -24,7 +24,7 @@ try {
   const payload = JSON.parse(input);
   const filePath = payload?.tool_input?.file_path;
 
-  if (typeof filePath === 'string' && /\.tetra[\\/]generated[\\/]/.test(filePath)) {
+  if (typeof filePath === 'string' && /(?:^|[\\/])\.tetra[\\/]generated[\\/]/.test(filePath)) {
     process.stderr.write(
       [
         'Geblokkeerd: .tetra/generated/ wordt overschreven bij de volgende',

@@ -17,10 +17,11 @@ Vul in `manifests/<naam>.json`:
 - de rollen en wie wat mag (`list`, `read`, `create`, `update`, `delete`);
 - zoeken/filters/sortering/paginering als relevant;
 - lijst/detail/formulier-weergave;
-- **elk `required` enum/status-veld krijgt een `defaultValue`** — zonder
-  default toont het gegenereerde formulier de eerste optie wel visueel
-  geselecteerd, maar de form-state blijft leeg totdat de gebruiker het veld
-  zelf aanraakt, en de eerste submit doet dan stil niets;
+- **elk `required` enum/status-veld krijgt een bewuste `defaultValue`** —
+  sinds `@soulbatical/tetra-ui` ≥0.21.18 / `@soulbatical/tetra-core` ≥0.21.23
+  valt het gegenereerde formulier zonder default terug op de eerste optie (ook
+  in de form-state, de eerste submit werkt dus), maar dat is toeval, geen
+  bedrijfskeuze — zet de echte standaardwaarde expliciet;
 - `needsDecision` voor open vragen — niet gokken, dit expliciet laten staan.
 
 ```bash

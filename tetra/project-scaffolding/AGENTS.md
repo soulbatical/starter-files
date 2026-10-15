@@ -79,11 +79,12 @@ Na `migration --write`: `supabase db reset` lokaal om de nieuwe migratie te test
 **Nooit** met de hand in `.tetra/generated/` wijzigen — dat verdwijnt bij de
 volgende compile. Wijzig het manifest, compileer opnieuw.
 
-Een `required` enum/status-veld krijgt altijd een `defaultValue` in het
-manifest. Zonder `defaultValue` toont het gegenereerde formulier de eerste
-optie wel visueel geselecteerd, maar de form-state blijft leeg totdat de
-gebruiker het veld zelf aanraakt — de eerste keer op "Create" klikken doet dan
-stil niets.
+Zet bij een `required` enum/status-veld altijd een bewuste `defaultValue` in
+het manifest. Sinds `@soulbatical/tetra-ui` ≥0.21.18 / `@soulbatical/tetra-core`
+≥0.21.23 kiest het gegenereerde formulier zonder `defaultValue` zelf de eerste
+optie (zowel visueel als in de form-state, dus de eerste "Create"-klik werkt
+gewoon) — maar dat is dan toeval, niet een bedrijfskeuze. Een expliciete
+`defaultValue` laat zien welke status écht de bedoelde standaard is.
 
 ## 4. Vóór je een taak "klaar" meldt
 
