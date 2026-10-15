@@ -33,8 +33,12 @@ fi
 # The marker is the source file's own first line, not something this script
 # injects separately — so a target that already carries it (because it was
 # unzipped there directly, or applied once before) is recognised the same
-# way regardless of which route put it there.
+# way regardless of which route put it there. That also means idempotency
+# depends on the source still carrying it; check instead of assuming.
 for doc in AGENTS.md CLAUDE.md; do
+  if ! grep -qF "$marker" "$src/$doc" 2>/dev/null; then
+    echo "Waarschuwing: $src/$doc mist de marker-regel — een herhaalde run zal $doc dupliceren." >&2
+  fi
   if [ -f "$target/$doc" ] && grep -qF "$marker" "$target/$doc" 2>/dev/null; then
     echo "$doc heeft de scaffolding al — overgeslagen (idempotent)."
   elif [ -f "$target/$doc" ]; then

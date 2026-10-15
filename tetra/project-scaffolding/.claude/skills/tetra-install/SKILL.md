@@ -8,10 +8,9 @@ description: Activeer en installeer Tetra SaaS in de huidige map via npx create-
 1. Controleer Node: `node --version` moet `v24.x` zijn.
 2. Controleer de create-tetra-versie: `npx create-tetra --version`. Het
    gedrag bij een verlopen code (stap 6) hangt hiervan af.
-3. Controleer dat de map leeg is. Op create-tetra ≥0.1.2 mag de map ook alleen
-   README.md/CLAUDE.md/AGENTS.md/`.claude/`/`.git/`/`.gitignore`/`.DS_Store`
-   bevatten (bijvoorbeeld als de agent-scaffolding al eerder is toegepast) —
-   op een oudere versie moet de map echt leeg zijn.
+3. Controleer dat de map echt leeg is — create-tetra accepteert vandaag niets
+   anders (zie `PROJECT_SETUP.md` §2 als je al scaffolding-bestanden in de map
+   hebt staan: die horen er pas ná deze stappen bij, niet ervoor).
 4. Draai `npx create-tetra mijn-app` (of `npx create-tetra .` als je al in de
    bedoelde, lege map staat).
 5. De CLI print een link en een bevestigingscode. Open de link (zelf met curl/een
