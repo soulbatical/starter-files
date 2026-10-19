@@ -63,6 +63,9 @@ project/
 │   └── seed.sql                    test data lokaal
 ├── docs/
 │   ├── README.md                   wat is dit project
+│   ├── PRD.md                      je PRD + levend statusblok (Deel 3)
+│   ├── Security.md                 rollen + scheiding user- vs admin-route (Deel 3)
+│   ├── design/                     geïmporteerde designbestanden (Deel 3)
 │   ├── SETUP.md                    install + lokaal draaien
 │   ├── DEPLOY.md                   Netlify + Railway stappen
 │   ├── DATABASE.md                 schema + RLS uitleg
@@ -247,7 +250,7 @@ create policy "users delete own posts" on posts
 - Eén concern per PR
 - **Samenhangende UI-rebuild = ÉÉN integratie-PR, geen losse parallelle PR's.** Meerdere PR's die tegelijk dezelfde bestanden raken conflicteren onderling en leveren halve states. Bundel ze in één branch (schermen als losse commits) → één review → één merge.
 - **Een review die niet zichtbaar op de PR staat, telt niet.** Een mondelinge/chat-"akkoord" is geen review. De review hoort als comment of approval op de PR, zodat later bewijsbaar is dat hij plaatsvond.
-- PR naar `main` → Netlify (frontend) + Railway (backend) auto-deployen
+- Merge naar `main` → Netlify (frontend) + Railway (backend) deployen automatisch
 - Supabase migraties: lokaal testen met `supabase db reset`, dan via GitHub Actions of `supabase db push` op prod (door 1 persoon, niet automatisch)
 
 ---
@@ -547,7 +550,7 @@ WERKPROCES 1 — VAN IDEE NAAR BOUWTAKEN        WERKPROCES 2 — BOUWEN PER TAAK
 **Werkproces 2 — bouwen per taak ↻**
 
 1. **Taak / spec** — `/clear` (of een nieuw gesprek), dan: *"Lees PRD.md, PROJECT_SETUP.md en CLAUDE.md en kijk in de PRD welke bouwtaken er zijn. Pak de eerste open taak op, maak er een eigen branch voor, en houd in de PRD bij wat je wel en niet gedaan hebt."*
-2. **AI maakt plan** — in **Plan Mode**: code onderzoeken → tests bedenken → bouwplan.
+2. **AI maakt plan** — in **Plan Mode** (in de app via de modus-keuze bij het invoerveld, of **Shift+Tab**): code onderzoeken → tests bedenken → bouwplan.
 3. **AI bouwt code** — TDD-light (§11), meteen in de definitieve design-stijl.
 4. **AI test zelf** — de drie testlagen (§12) plus de checklist (§14): typecheck · tests · build.
 5. **Commit + PR** — *"Commit dit en maak een pull request naar main."* Samenhangende UI = één integratie-PR.

@@ -20,7 +20,7 @@ Dit document is de Tetra-tegenhanger van `standaard/PROJECT_SETUP.md`. De method
 - **Database:** Supabase (Postgres + Auth + Row-Level Security), schema en RLS gegenereerd uit manifests
 - **Features:** manifests in `manifests/*.json`, gecompileerd met de `tetra` CLI
 - **Hosting:** Netlify (frontend) + Railway (backend, account via <https://railway.com?referralCode=vca>) + Supabase Cloud
-- **Node:** versie **24** (verplicht — Tetra weigert andere versies)
+- **Node:** versie **24** of hoger (verplicht)
 - **Versiebeheer:** Git + GitHub. `main` = live; elke bouwtaak krijgt een eigen branch + pull request (Claude regelt dat voor je, zie §13)
 - **Werkplek:** de Claude Code app, met de plugins Context7, Supabase en GitHub (in de app: `/plugins`)
 
@@ -30,16 +30,24 @@ Dit document is de Tetra-tegenhanger van `standaard/PROJECT_SETUP.md`. De method
 
 Je begint **nooit** met een lege map en een zelfgebouwde Express-server. Je laat Tetra het project neerzetten.
 
-**Prompt aan Claude:**
+**Let op de volgorde — `create-tetra` wil een (bijna) lege map:**
 
-> Maak een nieuw Tetra-project `mijn-app` in deze map met `npx create-tetra mijn-app`. Controleer eerst dat Node 24 geïnstalleerd is. Lees daarna `mijn-app/AGENTS.md` en draai `npx tetra intake` in het project.
+1. Maak een lege map (bijvoorbeeld `projecten`) en open die in de Claude Code app. Zet de starter files hier nog **niet** in.
+2. Geef deze prompt:
+
+> Controleer dat Node 24 geïnstalleerd is en maak dan een nieuw Tetra-project met `npx create-tetra mijn-app`.
+
+3. Zet daarna de starter files (`PROJECT_SETUP.md`, `CODE_REVIEW.md`, en eventueel `OPDRACHT_CRM.md`) in de nieuwe map `mijn-app/`.
+4. Open de map **`mijn-app`** in de Claude Code app en start daar een nieuw gesprek. Vanaf nu werk je altijd vanuit `mijn-app`. Eerste prompt:
+
+> Lees PROJECT_SETUP.md en AGENTS.md en houd je aan deze stack, structuur, naamgeving en veiligheidsregels in alles wat je doet. Draai `npx tetra intake`, laat me zien wat Tetra kan, en accepteer daarna met `npx tetra intake --accept`.
 
 Wat Claude daarbij uitvoert:
 
 ```bash
-node --version            # moet v24.x zijn
+node --version            # moet v24 of hoger zijn
 npx create-tetra mijn-app
-cd mijn-app
+# ...daarna, vanuit mijn-app:
 npx tetra intake          # laat zien wat Tetra kan; daarna: npx tetra intake --accept
 ```
 
@@ -50,6 +58,8 @@ Wat er gebeurt — en wat **jij** doet:
 3. Tetra zet een leestoken voor de pakketten in je **persoonlijke** `~/.npmrc` (niet in het project), zet je licentiesleutel in `.env` (die al genegeerd wordt door git), maakt het project aan en installeert alles.
 
 Je hoeft dus niets met tokens of registries te doen. Doe dat ook niet: een token dat in je project belandt, belandt in git.
+
+**`docs/plan.md` wordt `docs/PRD.md`.** `create-tetra` zet zelf een `docs/plan.md` neer. In de cursus heet je plan `docs/PRD.md`. Laat Claude in werkproces 1, stap 3 de inhoud van `docs/plan.md` overnemen in `docs/PRD.md`, `docs/plan.md` verwijderen en de verwijzingen in `CLAUDE.md` en `AGENTS.md` aanpassen naar `docs/PRD.md`. Zo heeft Claude één plan, niet twee.
 
 `create-tetra` zet ook meteen de **agent-scaffolding** neer: aanvullingen in `AGENTS.md`/`CLAUDE.md`, Claude Code-hooks en twee skills in `.claude/`. Check: staat de map `.claude/skills/tetra-install/` in je project? Dan is alles in orde. Ontbreekt hij, laat Claude dan `bash tetra/apply-project-scaffolding.sh mijn-app` draaien vanuit de map waar je de starter files hebt uitgepakt (het script overschrijft niets en is veilig om twee keer te draaien).
 
@@ -93,6 +103,7 @@ mijn-app/
 ├── testing/contracts/              welke tests welke code afdekken
 ├── docs/
 │   ├── README.md                   wat doet dit product, voor wie
+│   ├── plan.md                     door create-tetra neergezet → wordt docs/PRD.md (zie §2)
 │   ├── PRD.md                      je PRD + levend statusblok (maak je in Deel 3)
 │   ├── Security.md                 je beveiligingsafspraken: user- vs admin-route (Deel 3)
 │   └── tetra/                      meegeleverde Tetra-handleidingen (npm run docs:sync)
@@ -208,7 +219,7 @@ Tetra heeft kant-en-klare modules, onder andere:
 | Onboarding van nieuwe gebruikers | `tetra-onboarding` |
 | AI-assistent koppelen (MCP) | `tetra-mcp` |
 | SMS, WhatsApp, Telegram, telefonie | `tetra-sms`, `tetra-whatsapp`, `tetra-telegram`, `tetra-telephony` |
-| Goedkeuringen, automatiseringen, meerdere organisaties, vertalingen | approvals, automation, tenancy, translations |
+| Goedkeuringen, automatiseringen, meerdere organisaties, vertalingen | zie `npx tetra blocks` (o.a. approvals, automation, tenancy, translations) |
 
 De actuele, volledige lijst geeft `npx tetra blocks`; uitleg staat ook op <https://tetrasaas.com> en in `docs/tetra/` in je eigen project. Ontbreekt iets echt? Schrijf het dan zelf, maar **noteer** in `docs/` wat je zocht, wat Tetra niet kon en wat je zelf hebt gebouwd. Dat is geen schande — dat is feedback waar Tetra beter van wordt.
 
@@ -367,6 +378,8 @@ Geen `try/catch` overal, geen stille `catch (e) {}`.
 
 ## 12. Lokaal draaien
 
+**Windows?** De scripts van Tetra zijn bash-scripts. Gebruik op Windows **WSL2** (Ubuntu) en open je projectmap daarin; in gewone cmd/PowerShell werkt `npm run dev:local` niet.
+
 Tetra draait tijdens het bouwen een **database op je eigen laptop**. Daarvoor moet **Docker Desktop** geïnstalleerd zijn en draaien (eenmalig: <https://www.docker.com/products/docker-desktop/>). De Supabase CLI installeert Claude voor je als die ontbreekt (op de Mac met `brew install supabase/tap/supabase`).
 
 **Prompt aan Claude:** *"Start de lokale database en de test server (backend + frontend), zodat ik de app in mijn browser kan bekijken."*
@@ -403,7 +416,7 @@ npm run dev:local       # compileert manifests en start backend + frontend
 ## 14. Hosting
 
 - **Frontend → Netlify**
-  - Koppel de GitHub-repo. `netlify.toml` staat al klaar (Node 24, Next.js-plugin, security-headers).
+  - Koppel de GitHub-repo. Base directory = de **root** van de repo (niet `frontend/`). `netlify.toml` staat al klaar (Node 24, Next.js-plugin, security-headers).
   - Env vars: `NEXT_PUBLIC_API_URL` en **`NPM_TOKEN`** (anders kan Netlify Tetra niet installeren). De waarde staat in je `.env`.
   - **`ci/npmrc` moet in git staan.** Daarin staat waar de bouwserver Tetra vandaan haalt (zonder token — het token komt uit `NPM_TOKEN`). Ontbreekt het bestand in je commit, dan faalt de build met een kale `401`.
 - **Backend → Railway**
@@ -416,7 +429,7 @@ npm run dev:local       # compileert manifests en start backend + frontend
 
 - **Database → Supabase Cloud**
   - 1 project per omgeving (`-dev` en `-prod`). Nooit prod-keys voor lokaal werk.
-  - Prompt: *"Zet de koppeling met Supabase Cloud op voor productie. Sla de sleutels op in `.env` en controleer dat `.env` op de gitignore-lijst staat."* De **anon/publishable key** mag in de frontend; de **service-role key** alleen in de backend (zie §7 en §11).
+  - Prompt: *"Maak met de Supabase-koppeling een productie-database aan, zet de migraties erop en vertel me welke waarden ik in Railway moet invullen."* De productie-sleutels (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) zet je **alleen in Railway** (de backend) — niet in je lokale `.env` en nooit in de frontend. In een Tetra-app praat de frontend nooit rechtstreeks met Supabase; alles loopt via de backend (zie §7 en §11).
 
 ---
 
@@ -451,7 +464,7 @@ npm run typecheck
 | **Rechten / RLS** | kan gebruiker A de data van organisatie B zien? | inloggen als twee gebruikers en vergelijken |
 | **Browser-e2e** | de hele flow door de echte UI (Playwright) | inloggen → klant aanmaken → herladen → klant staat er nog |
 
-Voorbeeld van een rechtentest (backend):
+Voorbeeld van een rechtentest (backend) — een API-test praat met de draaiende backend, dus start eerst `npm run dev:local`:
 
 ```ts
 // backend/tests/projects-access.test.ts
@@ -535,8 +548,8 @@ Twee vaste werkprocessen, precies zoals in de cursus. **Werkproces 1** doe je é
 WERKPROCES 1 — VAN IDEE NAAR BOUWTAKEN        WERKPROCES 2 — BOUWEN PER TAAK  ↻
                                               (elke ronde = 1 taak = 1 PR)
 1. Idee scherp                                1. Taak / spec       (/clear eerst)
-2. PROJECT_SETUP.md meegeven                  2. AI maakt plan     (Plan Mode, Tetra eerst)
-   └─ + nieuw Tetra-project (create-tetra)    3. AI bouwt code     (TDD: red → green → refactor)
+2. Tetra-project + PROJECT_SETUP.md          2. AI maakt plan     (Plan Mode, Tetra eerst)
+   └─ eerst create-tetra, dan meegeven        3. AI bouwt code     (TDD: red → green → refactor)
 3. PRD maken           (docs/PRD.md)          4. AI test zelf      (unit · API · browser)
    └─ + Tetra-inventaris                      5. Commit + PR       (eigen branch per taak)
 4. Design / UX         (Claude Design)        6. 2e AI reviewt PR  (CODE_REVIEW.md, nieuw gesprek)
@@ -556,21 +569,21 @@ WERKPROCES 1 — VAN IDEE NAAR BOUWTAKEN        WERKPROCES 2 — BOUWEN PER TAAK
 
 Voor je iets bouwt: wat maak je, **voor wie**, wat moet het **minimaal** kunnen op dag één, en welk **type** app is het (webapp, iPhone, Android)? Hoe scherper nu, hoe minder zijsporen straks.
 
-### Stap 2 — PROJECT_SETUP.md meegeven (+ nieuw Tetra-project)
+### Stap 2 — Nieuw Tetra-project + PROJECT_SETUP.md meegeven
 
-Zet dit bestand (en `CODE_REVIEW.md`) in je projectmap en geef het aan Claude:
+Bij Tetra laat je éérst de fundering neerzetten en geef je daarna dit bestand mee — precies in deze volgorde (details in §2):
 
-> **Prompt:** Lees PROJECT_SETUP.md en houd je aan deze stack, structuur, naamgeving en veiligheidsregels in alles wat je doet.
+1. Open een **lege** map in de Claude Code app. **Prompt:** *"Maak een nieuw Tetra-project met `npx create-tetra mijn-app`."*
+2. Zet `PROJECT_SETUP.md` en `CODE_REVIEW.md` in de nieuwe map `mijn-app/`.
+3. Open **`mijn-app`** in de app, start een nieuw gesprek en geef:
 
-Daarna laat je Tetra de fundering neerzetten (zie §2):
-
-> **Prompt:** Maak een nieuw Tetra-project in deze map met `npx create-tetra`, lees AGENTS.md en draai `npx tetra intake`.
+> **Prompt:** Lees PROJECT_SETUP.md en AGENTS.md en houd je aan deze stack, structuur, naamgeving en veiligheidsregels in alles wat je doet. Draai `npx tetra intake` en accepteer daarna.
 
 ### Stap 3 — PRD maken (docs/PRD.md)
 
 Laat Claude jóú bevragen tot je idee glashelder is.
 
-> **Prompt:** Help mij een PRD te maken. Stel mij zóveel vragen over mijn idee, dat je precies weet wat ik écht wil. Ik wil maken: *[jouw idee]*. Schrijf het als `docs/PRD.md`. Lees daarvoor eerst PROJECT_SETUP.md helemaal door.
+> **Prompt:** Help mij een PRD te maken. Stel mij zóveel vragen over mijn idee, dat je precies weet wat ik écht wil. Ik wil maken: *[jouw idee]*. Schrijf het als `docs/PRD.md`, neem daarin over wat in `docs/plan.md` staat, verwijder `docs/plan.md` en pas de verwijzingen in CLAUDE.md en AGENTS.md aan naar `docs/PRD.md`. Lees daarvoor eerst PROJECT_SETUP.md helemaal door.
 
 In de PRD splits je **twee lagen** (zie §21): de **zichtbare** laag (schermen) en de **onzichtbare** laag (auth, data, rechten, RLS). Benoem ook doelgroep, minimale functies en type app.
 
@@ -633,7 +646,7 @@ Kies precies één taak uit de bouwtaken. Niet twee tegelijk — dat is dé bron
 
 ### Stap 2 — AI maakt plan (Plan Mode, Tetra eerst)
 
-Eerst denken, dan doen. Zet Claude in **Plan Mode**: hij onderzoekt de code, bedenkt de tests en schrijft een bouwplan voordat er code komt. **Tetra eerst** hoort in dit plan: welke module, welk manifest-veld of welk recept (`npx tetra how …`) doet dit al?
+Eerst denken, dan doen. Zet Claude in **Plan Mode** (in de app via de modus-keuze bij het invoerveld, of met **Shift+Tab**): hij onderzoekt de code, bedenkt de tests en schrijft een bouwplan voordat er code komt. **Tetra eerst** hoort in dit plan: welke module, welk manifest-veld of welk recept (`npx tetra how …`) doet dit al?
 
 ### Stap 3 — AI bouwt code (TDD-light)
 

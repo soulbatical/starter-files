@@ -1,6 +1,6 @@
 # Opdracht CRM — je eerste Tetra-app
 
-Een oefenopdracht om werkproces 1 en 2 uit de cursus één keer helemaal door te lopen. Zet `PROJECT_SETUP.md`, `CODE_REVIEW.md` en dit bestand in je projectmap en open die map in de Claude Code app.
+Een oefenopdracht om werkproces 1 en 2 uit de cursus één keer helemaal door te lopen. Begin in een **lege** map in de Claude Code app; de starter files zet je pas in je project nadat `create-tetra` het heeft aangemaakt (zie stap 2 hieronder en `PROJECT_SETUP.md` §2).
 
 **Het doel:** een klein, werkend CRM voor één bedrijf, live op internet — gebouwd met zoveel mogelijk Tetra en zo weinig mogelijk eigen code.
 
@@ -10,7 +10,7 @@ Kies zelf een bedrijf dat je kent (de bloemenwinkel van je oom, een schilder, ee
 
 ## Wat de app minimaal kan
 
-1. Inloggen, met twee rollen: **eigenaar** (mag alles) en **medewerker** (mag klanten en klussen zien en bijwerken, niet verwijderen).
+1. Inloggen, met twee rollen: **eigenaar** (Tetra-rol `owner`, mag alles) en **medewerker** (Tetra-rol `member`, mag klanten en klussen zien en bijwerken, niet verwijderen). De testdata heeft één gebruiker (`dev@example.com`); laat Claude een tweede testgebruiker als medewerker toevoegen aan `supabase/seed.sql`.
 2. **Klanten** bijhouden: naam, contactgegevens, notities.
 3. **Offertes of klussen** per klant, met een status (bijvoorbeeld: nieuw → offerte → gepland → klaar).
 4. Een overzicht waarin je kunt **zoeken en filteren**.
@@ -22,8 +22,8 @@ Meer mag, maar pas als dit werkt en live staat.
 **Werkproces 1 — van idee naar bouwtaken** (`PROJECT_SETUP.md`, Deel 3):
 
 1. **Idee scherp** — voor wie, wat minimaal, welk type app?
-2. **PROJECT_SETUP.md meegeven** en een nieuw Tetra-project laten maken (`npx create-tetra`). De licentie-mail bevestig je zelf.
-3. **PRD maken** in `docs/PRD.md` — laat Claude je interviewen. Laat Claude ook de Tetra-inventaris maken: welke modules (bijvoorbeeld `tetra-crm`, `tetra-pipeline`, `tetra-tasks`) doen dit al?
+2. **Nieuw Tetra-project + PROJECT_SETUP.md meegeven** — in een lege map: `npx create-tetra mijn-app` (de licentie-mail bevestig je zelf). Zet daarna `PROJECT_SETUP.md`, `CODE_REVIEW.md` en dit bestand in `mijn-app/`, open `mijn-app` in de app en laat Claude PROJECT_SETUP.md lezen.
+3. **PRD maken** in `docs/PRD.md` — laat Claude je interviewen (en `docs/plan.md` van Tetra daarin samenvoegen). Laat Claude ook de Tetra-inventaris maken: welke modules (bijvoorbeeld `tetra-crm`, `tetra-pipeline`, `tetra-tasks`) doen dit al?
 4. **Design** in Claude Design (<https://claude.com/design>).
 5. **Design importeren** in de repo.
 6. **PRD bijwerken** met de mapping-tabel: scherm → data → manifest of eigen code → Tetra-module.
