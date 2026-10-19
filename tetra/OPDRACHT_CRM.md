@@ -31,7 +31,7 @@ Meer mag, maar pas als dit werkt en live staat.
 
 **Werkproces 2 — bouwen per taak**, voor elke bouwtaak opnieuw:
 
-1. `/clear` en één taak kiezen
+1. Nieuw gesprek en één taak kiezen
 2. Claude maakt een plan (Plan Mode) — Tetra eerst
 3. Claude bouwt (TDD-light)
 4. Claude test zelf

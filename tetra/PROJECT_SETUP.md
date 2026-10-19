@@ -22,7 +22,7 @@ Dit document is de Tetra-tegenhanger van `standaard/PROJECT_SETUP.md`. De method
 - **Hosting:** Netlify (frontend) + Railway (backend, account via <https://railway.com?referralCode=vca>) + Supabase Cloud
 - **Node:** versie **24** of hoger (verplicht)
 - **Versiebeheer:** Git + GitHub. `main` = live; elke bouwtaak krijgt een eigen branch + pull request (Claude regelt dat voor je, zie §13)
-- **Werkplek:** de Claude Code app, met de plugins Context7, Supabase en GitHub (in de app: `/plugins`)
+- **Werkplek:** de Claude Code app, met de plugins Context7, Supabase en GitHub (in de app: **+ → Add plugins**)
 
 ---
 
@@ -378,7 +378,7 @@ Geen `try/catch` overal, geen stille `catch (e) {}`.
 
 ## 12. Lokaal draaien
 
-**Windows?** De scripts van Tetra zijn bash-scripts. Gebruik op Windows **WSL2** (Ubuntu) en open je projectmap daarin; in gewone cmd/PowerShell werkt `npm run dev:local` niet. Zet in Docker Desktop de WSL-integratie aan (Settings → Resources → WSL integration).
+**Windows?** De scripts van Tetra zijn bash-scripts. Gebruik op Windows **WSL2** (Ubuntu): kies in de Claude Code app de WSL-omgeving en open je projectmap daarin; in gewone cmd/PowerShell werkt `npm run dev:local` niet. Zet in Docker Desktop de WSL-integratie aan (Settings → Resources → WSL integration).
 
 Tetra draait tijdens het bouwen een **database op je eigen laptop**. Daarvoor moet **Docker Desktop** geïnstalleerd zijn en draaien (eenmalig: <https://www.docker.com/products/docker-desktop/>). De Supabase CLI installeert Claude voor je als die ontbreekt (op de Mac met `brew install supabase/tap/supabase`).
 
@@ -547,7 +547,7 @@ Twee vaste werkprocessen, precies zoals in de cursus. **Werkproces 1** doe je é
 ```
 WERKPROCES 1 — VAN IDEE NAAR BOUWTAKEN        WERKPROCES 2 — BOUWEN PER TAAK  ↻
                                               (elke ronde = 1 taak = 1 PR)
-1. Idee scherp                                1. Taak / spec       (/clear eerst)
+1. Idee scherp                                1. Taak / spec       (nieuw gesprek)
 2. Tetra-project + PROJECT_SETUP.md          2. AI maakt plan     (Plan Mode, Tetra eerst)
    └─ eerst create-tetra, dan meegeven        3. AI bouwt code     (TDD: red → green → refactor)
 3. PRD maken           (docs/PRD.md)          4. AI test zelf      (unit · API · browser)
@@ -559,7 +559,7 @@ WERKPROCES 1 — VAN IDEE NAAR BOUWTAKEN        WERKPROCES 2 — BOUWEN PER TAAK
                                               ↻ terug naar stap 1 voor de volgende taak
 ```
 
-**Instellingen vooraf (eenmalig):** zet in de Claude Code app via `/plugins` de plugins **Context7**, **Supabase** en **GitHub** aan, en herlaad (`/reload-plugins`). Zet alleen aan wat je nodig hebt — elke koppeling vult de context van je agent.
+**Instellingen vooraf (eenmalig):** voeg in de Claude Code app via **+ → Add plugins** de plugins **Context7**, **Supabase** en **GitHub** toe en start daarna een nieuw gesprek. (In de terminal: `/plugins` en `/reload-plugins`.) Zet alleen aan wat je nodig hebt — elke koppeling vult de context van je agent.
 
 ---
 
@@ -628,7 +628,7 @@ Neem ook een taak **beveiliging** op:
 
 Sluit werkproces 1 af met:
 
-> **Prompt:** `/init` — maakt o.a. CLAUDE.md aan en zet de structuur op. (Bestaat er al een CLAUDE.md van Tetra, dan vult `/init` die aan.)
+> **Prompt:** `/init` — maakt o.a. CLAUDE.md aan en zet de structuur op. (Bestaat er al een CLAUDE.md van Tetra, dan vult `/init` die aan. Werkt `/init` niet in jouw app-versie, vraag dan: *"Werk CLAUDE.md bij op basis van PROJECT_SETUP.md en de PRD."*)
 
 ---
 
@@ -640,13 +640,13 @@ Elke ronde is **één taak, één branch, één pull request**. Daarna terug naa
 
 Kies precies één taak uit de bouwtaken. Niet twee tegelijk — dat is dé bron van loops en conflicten.
 
-> **Prompt:** `/clear` — maakt de context leeg (of start een nieuw gesprek).
+> Start een **nieuw gesprek** in de app (in de terminal: `/clear`) — zo begin je met een lege context.
 >
 > **Prompt:** Lees PRD.md, PROJECT_SETUP.md en CLAUDE.md en kijk in de PRD welke bouwtaken er zijn. Pak de eerste open taak op, maak er een eigen branch voor, en houd in de PRD bij wat je wel en niet gedaan hebt.
 
 ### Stap 2 — AI maakt plan (Plan Mode, Tetra eerst)
 
-Eerst denken, dan doen. Zet Claude in **Plan Mode** (in de app via de modus-keuze bij het invoerveld, of met **Shift+Tab**): hij onderzoekt de code, bedenkt de tests en schrijft een bouwplan voordat er code komt. **Tetra eerst** hoort in dit plan: welke module, welk manifest-veld of welk recept (`npx tetra how …`) doet dit al?
+Eerst denken, dan doen. Zet Claude in **Plan Mode** (in de app: kies **Plan** in de moduskiezer onder het invoerveld; in de terminal: Shift+Tab): hij onderzoekt de code, bedenkt de tests en schrijft een bouwplan voordat er code komt. **Tetra eerst** hoort in dit plan: welke module, welk manifest-veld of welk recept (`npx tetra how …`) doet dit al?
 
 ### Stap 3 — AI bouwt code (TDD-light)
 
