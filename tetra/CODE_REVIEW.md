@@ -2,6 +2,13 @@
 
 **Lees dit eerst, vóór je een PR van een cursist beoordeelt.** Dit document is geschreven voor de AI-assistent (jou), niet voor de cursist. Jij reviewt de Pull Request van een project dat op **Tetra** is gebouwd (<https://tetrasaas.com>). De cursist is een beginner zonder development-achtergrond die op jouw oordeel vertrouwt. Jouw taak is dubbel: (1) een grondige, eerlijke review uitvoeren, en (2) de uitkomst zó terugkoppelen dat een niet-technische cursist begrijpt wat er moet gebeuren en waarom.
 
+> **Voor de cursist — zo start je de review (werkproces 2, stap 6 en 7):**
+> 1. Zet dit bestand in je projectmap, naast `PROJECT_SETUP.md`.
+> 2. Is je PR klaar? **Start een nieuw gesprek** in de Claude Code app, in dezelfde projectmap. Dat nieuwe gesprek is je reviewer — met een frisse blik, zonder de aannames van de bouwer.
+> 3. Prompt: *"Bekijk PR #1 en analyseer deze. Gebruik CODE_REVIEW.md om het te beoordelen en zet je review op de PR."*
+> 4. Ga terug naar het gesprek van de bouwer. Prompt: *"Lees de review op PR #1 en verwerk de instructies."*
+> 5. Daarna test jij zelf in de browser (stap 8) en pas dan merge je (stap 9).
+
 Dit is de tegenhanger van `PROJECT_SETUP.md` (Tetra-versie): dat document beschrijft *hoe er gebouwd hoort te worden*, dit document beschrijft *hoe jij controleert of het goed gebouwd is* — vóór de merge.
 
 **Wat anders is dan bij een gewoon project:** een groot deel van de fundering (auth, database-toegang, CRUD, RLS) komt uit Tetra en uit gegenereerde code. Je reviewt dus niet alleen *of de code klopt*, maar vooral *of de cursist Tetra gebruikt waar het kan* — en of hij er niet omheen bouwt. Code die naast Tetra een tweede loginroute, een eigen database-client of een eigen RLS-regel neerzet, is de meest voorkomende bron van lekken in Tetra-projecten.
@@ -27,10 +34,10 @@ gh pr diff <nummer>                 # de volledige diff — lees elke regel
 gh pr checkout <nummer>             # branch lokaal uitchecken om te draaien
 ```
 
-Geen `gh`? Lees de diff via het "Files changed"-tabblad op GitHub. Lees élke gewijzigde regel.
+Geen `gh`? Gebruik de GitHub-koppeling (plugin) of lees de diff via het "Files changed"-tabblad op GitHub. Lees élke gewijzigde regel.
 
 Controleer meteen:
-- Staat de PR open tegen de **juiste branch** (`main` of `develop`)?
+- Komt de PR van een **eigen branch** voor deze taak en staat hij open tegen **`main`**?
 - Is het **één concern**?
 - Staan de **geautomatiseerde checks** groen? Rood = nog niet review-klaar.
 - **Welk deel van de diff is gegenereerd?** Bestanden onder `.tetra/generated/` horen niet in git (ze staan in `.gitignore`). Zie je ze toch in de diff, of zie je er handmatige wijzigingen in, dan is dat een bevinding (§5).
@@ -40,10 +47,11 @@ Controleer meteen:
 ## 2. Lees de bron vóór de code
 
 1. **`PROJECT_SETUP.md` (Tetra-versie)** — de standaarden.
-2. **`docs/plan.md`** (de PRD) en de **mapping-tabel** — wat had deze PR moeten doen, en welke Tetra-module of welk manifest hoort daarbij?
-3. **De PR-omschrijving** — wat claimt de cursist? Staat er bij eigen code een onderbouwing waarom Tetra het niet kon?
-4. **De manifests** in `manifests/` die de PR raakt — dit is de echte bron van schema, rechten en RLS.
-5. **De diff.**
+2. **`docs/PRD.md`** (de PRD) en de **mapping-tabel** — wat had deze PR moeten doen, en welke Tetra-module of welk manifest hoort daarbij?
+3. **`docs/Security.md`** — de afgesproken rollen en de scheiding tussen user- en admin-route. Wijkt de PR daarvan af, dan is dat een bevinding.
+4. **De PR-omschrijving** — wat claimt de cursist? Staat er bij eigen code een onderbouwing waarom Tetra het niet kon?
+5. **De manifests** in `manifests/` die de PR raakt — dit is de echte bron van schema, rechten en RLS.
+6. **De diff.**
 
 Kernvraag bij elke bevinding: **doet de diff wat de PRD vroeg, met zoveel mogelijk Tetra en zo min mogelijk eigen code, op de manier die `PROJECT_SETUP.md` voorschrijft?**
 
@@ -209,7 +217,7 @@ Draai tests via `npm test`, niet via een runner die je zelf aanneemt. Staat er �
 ## 12. Docs en afronding
 
 - [ ] **`docs/` bijgewerkt**: welke manifests voeden welke schermen, welke eigen code staat ernaast en waarom, welke Tetra-modules zijn in gebruik.
-- [ ] **Levend statusblok** in `docs/plan.md` klopt.
+- [ ] **Levend statusblok** in `docs/PRD.md` klopt.
 - [ ] **Commits klein en beschrijvend**, geen `wip` of `fix stuff`.
 - [ ] **PR-omschrijving** zegt wat, waarom, hoe te testen, en (bij eigen code) waarom Tetra het niet kon.
 
@@ -273,7 +281,7 @@ Geen findings? Zeg het expliciet, met het rest-risico. Een lege "ziet er goed ui
 - **Prioriteer**: eerst 🔴, dan 🟠, nits optioneel.
 - **Loods door de fixes.** Bij een Tetra-omweg: laat zien welke module of welk manifest-veld het al doet.
 - **Herhaal de review op de nieuwe staat.**
-- **Bewaak de afronding**: gemerged, gedeployed én met eigen ogen op de live-URL gezien.
+- **Bewaak de afronding**: de cursist heeft het zelf getest in de browser, daarna gemerged, gedeployed én met eigen ogen op de live-URL gezien.
 
 ---
 

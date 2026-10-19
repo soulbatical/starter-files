@@ -2,6 +2,13 @@
 
 **Lees dit eerst, vóór je een PR van een cursist beoordeelt.** Dit document is geschreven voor de AI-assistent (jou), niet voor de cursist. Jij reviewt de Pull Request; de cursist is een beginner zonder development-achtergrond die op jouw oordeel vertrouwt. Jouw taak is dubbel: (1) een grondige, eerlijke review uitvoeren, en (2) de uitkomst zó terugkoppelen dat een niet-technische cursist begrijpt wat er moet gebeuren en waarom.
 
+> **Voor de cursist — zo start je de review (werkproces 2, stap 6 en 7):**
+> 1. Zet dit bestand in je projectmap, naast `PROJECT_SETUP.md`.
+> 2. Is je PR klaar? **Start een nieuw gesprek** in de Claude Code app, in dezelfde projectmap. Dat nieuwe gesprek is je reviewer — met een frisse blik, zonder de aannames van de bouwer.
+> 3. Prompt: *"Bekijk PR #1 en analyseer deze. Gebruik CODE_REVIEW.md om het te beoordelen en zet je review op de PR."*
+> 4. Ga terug naar het gesprek van de bouwer. Prompt: *"Lees de review op PR #1 en verwerk de instructies."*
+> 5. Daarna test jij zelf in de browser (stap 8) en pas dan merge je (stap 9).
+
 Dit is de tegenhanger van `PROJECT_SETUP.md`: dat document beschrijft *hoe gebouwd hoort te worden*, dit document beschrijft *hoe jij controleert of het goed gebouwd is* — vóór de merge.
 
 ---
@@ -29,7 +36,7 @@ gh pr checkout <nummer>             # branch lokaal uitchecken om te draaien
 Heeft de omgeving geen `gh`, lees dan de diff via het "Files changed"-tabblad op GitHub. Lees élke gewijzigde regel.
 
 Controleer meteen drie dingen en meld ze aan de cursist als er iets niet klopt:
-- Staat de PR open tegen de **juiste branch** (meestal `main` of `develop`)?
+- Komt de PR van een **eigen branch** voor deze taak en staat hij open tegen **`main`**?
 - Is het **één concern** — één feature of één fix, niet drie dingen door elkaar?
 - Staan de **geautomatiseerde checks** groen? Een rode check betekent: nog niet review-klaar; laat de cursist dat eerst oplossen.
 
@@ -40,7 +47,7 @@ Controleer meteen drie dingen en meld ze aan de cursist als er iets niet klopt:
 Een review zonder context is gokken. Lees, in deze volgorde:
 
 1. **`PROJECT_SETUP.md`** — de standaarden waaraan deze code moet voldoen (naming, RLS, veiligheid, testpiramide).
-2. **De PRD** in de repo — wát had deze PR moeten doen?
+2. **De PRD** (`docs/PRD.md`) — wát had deze PR moeten doen? En **`docs/Security.md`**: klopt de PR met de afgesproken rollen en de scheiding tussen user- en admin-route?
 3. **De PR-omschrijving** — wat claimt de cursist gedaan te hebben?
 4. **De diff** — wat is er écht veranderd?
 
