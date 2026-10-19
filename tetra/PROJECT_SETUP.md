@@ -28,7 +28,7 @@ Dit document is de Tetra-tegenhanger van `standaard/PROJECT_SETUP.md`. De method
 
 ## 2. Een nieuw project maken
 
-Je begint **nooit** met een lege map en een zelfgebouwde Express-server. Je laat Tetra het project neerzetten.
+Je bouwt **nooit** zelf een Express-server vanaf nul. Je laat Tetra het project neerzetten.
 
 **Let op de volgorde — `create-tetra` wil een (bijna) lege map:**
 
@@ -378,7 +378,7 @@ Geen `try/catch` overal, geen stille `catch (e) {}`.
 
 ## 12. Lokaal draaien
 
-**Windows?** De scripts van Tetra zijn bash-scripts. Gebruik op Windows **WSL2** (Ubuntu) en open je projectmap daarin; in gewone cmd/PowerShell werkt `npm run dev:local` niet.
+**Windows?** De scripts van Tetra zijn bash-scripts. Gebruik op Windows **WSL2** (Ubuntu) en open je projectmap daarin; in gewone cmd/PowerShell werkt `npm run dev:local` niet. Zet in Docker Desktop de WSL-integratie aan (Settings → Resources → WSL integration).
 
 Tetra draait tijdens het bouwen een **database op je eigen laptop**. Daarvoor moet **Docker Desktop** geïnstalleerd zijn en draaien (eenmalig: <https://www.docker.com/products/docker-desktop/>). De Supabase CLI installeert Claude voor je als die ontbreekt (op de Mac met `brew install supabase/tap/supabase`).
 
@@ -583,7 +583,7 @@ Bij Tetra laat je éérst de fundering neerzetten en geef je daarna dit bestand 
 
 Laat Claude jóú bevragen tot je idee glashelder is.
 
-> **Prompt:** Help mij een PRD te maken. Stel mij zóveel vragen over mijn idee, dat je precies weet wat ik écht wil. Ik wil maken: *[jouw idee]*. Schrijf het als `docs/PRD.md`, neem daarin over wat in `docs/plan.md` staat, verwijder `docs/plan.md` en pas de verwijzingen in CLAUDE.md en AGENTS.md aan naar `docs/PRD.md`. Lees daarvoor eerst PROJECT_SETUP.md helemaal door.
+> **Prompt:** Help mij een PRD te maken. Stel mij zóveel vragen over mijn idee, dat je precies weet wat ik écht wil. Ik wil maken: *[jouw idee]*. Schrijf het als `docs/PRD.md`, neem daarin over wat in `docs/plan.md` staat, verwijder `docs/plan.md` en pas de verwijzingen in CLAUDE.md, AGENTS.md en docs/README.md aan naar `docs/PRD.md`. Lees daarvoor eerst PROJECT_SETUP.md helemaal door.
 
 In de PRD splits je **twee lagen** (zie §21): de **zichtbare** laag (schermen) en de **onzichtbare** laag (auth, data, rechten, RLS). Benoem ook doelgroep, minimale functies en type app.
 
