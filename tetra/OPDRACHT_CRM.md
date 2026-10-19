@@ -1,125 +1,54 @@
-# Opdracht CRM
+# Opdracht CRM — je eerste Tetra-app
 
-Voorbeeldopdracht bij `PROJECT_SETUP.md` en `CODE_REVIEW.md` (Tetra-versie). Geef alle drie de bestanden mee aan je AI-assistent.
+Een oefenopdracht om werkproces 1 en 2 uit de cursus één keer helemaal door te lopen. Begin in een **lege** map in de Claude Code app; de starter files zet je pas in je project nadat `create-tetra` het heeft aangemaakt (zie stap 2 hieronder en `PROJECT_SETUP.md` §2).
 
-1. Kijk op <https://tetrasaas.com> en onderzoek het Tetra-model: Tetra als SaaS-framework voor onder andere auth, RLS, CRM, pipeline, planner en manifests.
-2. Bedenk 10 CRM-systemen voor 10 verschillende typen bedrijven waarmee zij hun bedrijf prettig en efficiënt kunnen runnen.
-3. Gebruik zoveel mogelijk Tetra en programmeer zelf zo min mogelijk.
-4. Verzamel tijdens het hele proces feedback op Tetra.
-5. Bouw 1 app voor 1 bedrijf — het beste idee van die tien — met minimaal 15 Tetra-modules. Maak er een complete, complexe en samenhangende applicatie van.
-6. Zorg dat alles volledig werkt en goed met elkaar verbonden is. Verzamel feedback voor Tetra, zodat het framework nog beter en handiger kan worden.
-7. Probeer Tetra maximaal te gebruiken. Onderzoek de beperkingen, mogelijke onveiligheden, sterke punten en mogelijkheden. Ontdek zoveel mogelijk van Tetra en zet dat daadwerkelijk in.
-8. Onderzoek van A tot Z iedere beschikbare functionaliteit van Tetra en bepaal welke onderdelen je kunt inzetten om optimaal gebruik te maken van het framework.
-9. Sla je testmappen op in `~/tests`. Gebruik een duidelijke en consistente naamgeving en nummering waarin minimaal het gebruikte taalmodel en de gebruikte Tetra-versie staan, bijvoorbeeld:
+**Het doel:** een klein, werkend CRM voor één bedrijf, live op internet — gebouwd met zoveel mogelijk Tetra en zo weinig mogelijk eigen code.
 
-   ```
-   ~/tests/001_claude-opus-5.5_tetra-core-0.21.9_crm-schildersbedrijf/
-   ~/tests/002_claude-opus-5.5_tetra-core-0.21.9_crm-schildersbedrijf/
-   ```
+## Het bedrijf
 
-Succes!
+Kies zelf een bedrijf dat je kent (de bloemenwinkel van je oom, een schilder, een kapper, een coach). Weet je er geen? Neem dan: *een schildersbedrijf met 3 schilders dat klanten, offertes en klussen wil bijhouden.*
 
----
+## Wat de app minimaal kan
 
-## Aanvullende eisen: maximaal Tetra, aantoonbaar werkend
+1. Inloggen, met twee rollen: **eigenaar** (Tetra-rol `owner`, mag alles) en **medewerker** (Tetra-rol `member`, mag klanten en klussen zien en bijwerken, niet verwijderen). De testdata heeft één gebruiker (`dev@example.com`); laat Claude een tweede testgebruiker als medewerker toevoegen aan `supabase/seed.sql`.
+2. **Klanten** bijhouden: naam, contactgegevens, notities.
+3. **Offertes of klussen** per klant, met een status (bijvoorbeeld: nieuw → offerte → gepland → klaar).
+4. Een overzicht waarin je kunt **zoeken en filteren**.
 
-Deze eisen zijn aanvullingen op de oorspronkelijke opdracht, geen vervanging daarvan.
+Meer mag, maar pas als dit werkt en live staat.
 
-### 1. Gebruik Tetra voor zowel frontend als backend
+## Zo pak je het aan
 
-- Tetra is het uitgangspunt voor de hele applicatie, inclusief de zichtbare frontend.
-- Inventariseer vóór het bouwen de beschikbare modules, frontendcomponenten, standaardpagina's, formulieren, navigatie, manifests, authenticatie, rechten, RLS en integraties.
-- Gebruik de website, documentatie, beschikbare broncode en werkende voorbeelden om vast te stellen wat Tetra daadwerkelijk ondersteunt in de gebruikte versie.
-- Leg per functionaliteit vast wat beschikbaar is, wat je hebt onderzocht en getest, of je het gebruikt en waarom. Maak ook zichtbaar wat nog niet is onderzocht.
-- Onderzoek het volledige beschikbare aanbod. Gebruik zoveel mogelijk relevante functionaliteit zonder onderdelen toe te voegen die geen doel dienen binnen de gekozen applicatie.
+**Werkproces 1 — van idee naar bouwtaken** (`PROJECT_SETUP.md`, Deel 3):
 
-### 2. Koppel bedrijfsprocessen en schermen aan Tetra
+1. **Idee scherp** — voor wie, wat minimaal, welk type app?
+2. **Nieuw Tetra-project + PROJECT_SETUP.md meegeven** — in een lege map: `npx create-tetra mijn-app` (de licentie-mail bevestig je zelf). Zet daarna `PROJECT_SETUP.md`, `CODE_REVIEW.md` en dit bestand in `mijn-app/`, open `mijn-app` in de app en laat Claude PROJECT_SETUP.md lezen.
+3. **PRD maken** in `docs/PRD.md` — laat Claude je interviewen (en `docs/plan.md` van Tetra daarin samenvoegen). Laat Claude ook de Tetra-inventaris maken: welke modules (bijvoorbeeld `tetra-crm`, `tetra-pipeline`, `tetra-tasks`) doen dit al?
+4. **Design** in Claude Design (<https://claude.com/design>).
+5. **Design importeren** in de repo.
+6. **PRD bijwerken** met de mapping-tabel: scherm → data → manifest of eigen code → Tetra-module.
+7. **Bouwtaken** maken, plus `docs/Security.md` (eigenaar vs medewerker). Sluit af met `/init`.
 
-- Werk eerst de tien CRM-concepten uit en onderbouw vervolgens de keuze voor het beste idee.
-- Beschrijf voor het gekozen bedrijf welke processen, gebruikers, rollen, gegevens en werkzaamheden de CRM-applicatie moet ondersteunen.
-- Koppel ieder bedrijfsproces, ieder scherm en iedere benodigde backendfunctie aan bestaande Tetra-functionaliteit.
-- Gebruik eerst standaardfunctionaliteit, configuratie en manifests van Tetra.
-- Onderzoek ook voor dashboard, navigatie, tabellen, formulieren, planning en dossiers welke Tetra-frontendcomponenten je kunt hergebruiken voordat je deze zelf bouwt.
+**Werkproces 2 — bouwen per taak**, voor elke bouwtaak opnieuw:
 
-### 3. Maatwerk is een onderbouwde uitzondering
+1. `/clear` en één taak kiezen
+2. Claude maakt een plan (Plan Mode) — Tetra eerst
+3. Claude bouwt (TDD-light)
+4. Claude test zelf
+5. Commit + pull request
+6. Tweede AI reviewt de PR in een nieuw gesprek, met `CODE_REVIEW.md`
+7. De bouwer verwerkt de review
+8. **Jij test zelf** in de browser
+9. Merge en live
 
-- Bouw alleen maatwerk wanneer je met documentatie, broncode of een reproduceerbare test kunt aantonen dat Tetra de benodigde functie niet ondersteunt of onvoldoende ondersteunt.
-- Leg per uitzondering vast:
-  - de bedrijfsbehoefte;
-  - de onderzochte Tetra-mogelijkheid;
-  - de concrete beperking;
-  - de noodzakelijke eigen code;
-  - de gewenste verbetering aan Tetra.
-- Meld een ontbrekende Tetra-functie als feedback; verberg die beperking niet achter eigen code.
-- Verwijder overbodig maatwerk zodra een beschikbare Tetra-oplossing dezelfde behoefte aantoonbaar afdekt en test vervolgens de vervanging.
+## Klaar is klaar als
 
-### 4. Minimaal 15 daadwerkelijk gebruikte modules
+- [ ] Je bent ingelogd als eigenaar én als medewerker, en de medewerker kán echt niets verwijderen (ook niet via een omweg — laat Claude dat testen).
+- [ ] Je hebt een klant met een offerte aangemaakt, de pagina herladen, en alles staat er nog.
+- [ ] Elke PR heeft een zichtbare review.
+- [ ] De app staat live en je hebt hem **met eigen ogen** op de live-URL gezien.
+- [ ] In `docs/PRD.md` staat welke Tetra-modules je gebruikt en waar je zelf code schreef (met reden).
 
-- Integreer minimaal 15 Tetra-modules in werkende gebruikersprocessen en verbind ze met elkaar.
-- Alleen een pakket installeren, importeren of één losse hulpfunctie gebruiken telt niet als volledige module-integratie.
-- Lever per module bewijs van het gebruik:
-  - doel;
-  - betrokken proces of scherm;
-  - verbinding met andere modules;
-  - testresultaat.
-- Rapporteer eerlijk wanneer het beschikbare aanbod of de bedrijfsbehoefte het minimum niet ondersteunt. Tel hulpfuncties of ongebruikte pakketten niet kunstmatig mee.
+Ging iets niet met Tetra, of was iets onduidelijk? Schrijf het op in `docs/tetra-feedback.md`. Daar wordt Tetra beter van.
 
-### 5. Test de volledige applicatie
-
-- Test complete gebruikersprocessen van begin tot eind in de browser, inclusief opslaan, opnieuw laden en terugvinden van gegevens.
-- Test dat modules onderling de juiste gegevens uitwisselen en dat acties de verwachte vervolgstappen veroorzaken.
-- Test positieve en negatieve scenario's: geldige acties moeten slagen en ongeldige of onbevoegde acties moeten worden afgewezen.
-- Test authenticatie, rollen, rechten, tenantisolatie en RLS ook via API- en databasecontroles waar relevant. Alleen een verborgen knop is geen toegangsbeveiliging.
-- Voer beveiligingstests uitsluitend uit op eigen, geïsoleerde testomgevingen met synthetische gegevens en binnen de toegestane scope.
-- Leg testresultaten en reproduceerbaar bewijs vast in de correct genummerde testmap, samen met het gebruikte taalmodel en de exacte Tetra-pakketversies.
-- Open en controleer de werkende applicatie zelf voordat je haar oplevert.
-
-### 6. Verzamel bruikbare feedback voor Tetra
-
-- Beschrijf zowel sterke punten als beperkingen, onveiligheden, ontbrekende functies en verbeteringen in gebruiksgemak.
-- Scheid:
-  - bewezen frameworkbugs;
-  - wensen voor het framework;
-  - fouten in de eigen app;
-  - ontbrekende informatie, data of externe toegangen.
-- Geef per bevinding:
-  - prioriteit;
-  - getroffen versie;
-  - getroffen onderdeel;
-  - reproductiestappen;
-  - verwacht gedrag;
-  - werkelijk gedrag;
-  - bewijs;
-  - acceptatiecriteria voor een oplossing.
-- Maak duidelijk welke bevindingen bewezen zijn en welke nog een hypothese zijn.
-- Leg bij opgeloste problemen vast welke versie de oplossing bevat en of die oplossing in deze app opnieuw is getest.
-
-### 7. Lever controleerbaar op
-
-- Lever de tien CRM-concepten en de onderbouwing van de gekozen app op.
-- Lever de complete, complexe en samenhangende applicatie op die de processen van het gekozen bedrijf afdekt. Voeg geen complexiteit toe uitsluitend om een moduleaantal te halen.
-- Lever een overzicht per scherm van:
-  - gebruikte Tetra-componenten;
-  - eigen code;
-  - onderbouwing waarom die eigen code noodzakelijk is.
-- Doe hetzelfde voor de backend.
-- Lever daarnaast op:
-  - de volledige Tetra-functionaliteiteninventaris;
-  - de modulematrix;
-  - de testresultaten;
-  - de verzamelde Tetra-feedback.
-- Vermeld:
-  - de projectmap;
-  - startinstructies;
-  - werkende lokale URL;
-  - gebruikt taalmodel;
-  - exacte gebruikte Tetra-versies en pakketversies.
-- Noem de app alleen volledig werkend als de afgesproken bedrijfsprocessen aantoonbaar werken.
-- Maak expliciet welke koppelingen:
-  - daadwerkelijk werken;
-  - gesimuleerd zijn;
-  - nog afhankelijk zijn van ontbrekende gegevens, externe toegangen of besluiten.
-- Maak duidelijk onderscheid tussen:
-  - een werkende testapplicatie;
-  - een applicatie die technisch productierijp is;
-  - een applicatie die daadwerkelijk klaar is voor gebruik door een bedrijf.
+Wil je verder? Pak dan `OPDRACHT_CRM_GEVORDERD.md`.
