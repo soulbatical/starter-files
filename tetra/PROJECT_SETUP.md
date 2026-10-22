@@ -21,7 +21,7 @@ Dit document is de Tetra-tegenhanger van `standaard/PROJECT_SETUP.md`. De method
 - **Features:** manifests in `manifests/*.json`, gecompileerd met de `tetra` CLI
 - **Hosting:** Netlify (frontend) + Railway (backend, account via <https://railway.com?referralCode=vca>) + Supabase Cloud
 - **Node:** versie **24** of hoger (verplicht)
-- **Versiebeheer:** Git + GitHub. `main` = live; elke bouwtaak krijgt een eigen branch + pull request (Claude regelt dat voor je, zie §13)
+- **Versiebeheer:** Git + GitHub. `main` = live; elke bouwtaak krijgt een eigen branch + pull request (Claude regelt dat voor je, zie §13). Zonder GitHub-remote: eigen branch + reviewbestand, volgens de minimale vervanging in §13.
 - **Werkplek:** de Claude Code app, met de plugins Context7, Supabase en GitHub (in de app: **+ → Add plugins**)
 
 ---
@@ -99,7 +99,7 @@ mijn-app/
 ├── supabase/
 │   ├── config.toml                 lokale poorten van jouw database
 │   ├── migrations/                 SQL (timestamp-prefix), alleen vooruit
-│   └── seed.sql                    testdata + testgebruiker
+│   └── seed.sql                    testdata + gebruiker(s) voor lokaal inloggen
 ├── testing/contracts/              welke tests welke code afdekken
 ├── docs/
 │   ├── README.md                   wat doet dit product, voor wie
@@ -388,14 +388,15 @@ Wat Claude daarbij uitvoert:
 
 ```bash
 supabase start          # lokale database (Docker moet draaien)
-supabase db reset       # migraties + seed (testgebruiker)
+supabase db reset       # migraties + seed (voorbeeldgebruiker of je eigen gebruiker)
 npm run dev:local       # compileert manifests en start backend + frontend
 ```
 
 - Gebruik `npm run dev:local`. Het gewone `npm run dev` haalt variabelen uit Doppler en werkt alleen als je Doppler hebt ingesteld.
 - Vaste poorten: backend `3000`, frontend `3001`, MCP-backend `3002`. Anders nodig? Zet `PORT`, `FRONTEND_PORT` en `NEXT_PUBLIC_API_URL`.
-- Inloggen met de testgebruiker uit `supabase/seed.sql`: **`dev@example.com` / `password123`** — alleen lokaal, nooit in productie.
-- Open `http://localhost:3001/examples`: dat is een echt CRUD-scherm uit `manifests/example.json`, met login en RLS. Geen nepdata.
+- De scaffold levert een **voorbeeldmodule** mee: `manifests/example.json`, de route `/examples` en de seed-gebruiker **`dev@example.com` / `password123`** (alleen lokaal, nooit in productie).
+- Zodra je die voorbeeldmodule vervangt door je eerste eigen manifest (of `example.json` uit je manifestmap haalt) en je eigen `supabase/seed.sql` gebruikt, bestaan `/examples` en `dev@example.com` niet meer. De bron is dan jouw `manifests/` en jouw `supabase/seed.sql`; log in met de gebruiker die daar staat.
+- Open in de fresh scaffold `http://localhost:3001/examples`; daarna open je de route uit je eigen manifest (bijvoorbeeld `/klanten`).
 - `npm run dev:local` weigert te starten als hij een database buiten je eigen laptop ziet. Dat is expres: zo test je nooit per ongeluk tegen productie.
 
 ---
@@ -408,6 +409,13 @@ npm run dev:local       # compileert manifests en start backend + frontend
 - Eén concern per PR.
 - **Samenhangende UI = één integratie-PR**, geen losse parallelle PR's die dezelfde bestanden raken.
 - **Een review die niet zichtbaar op de PR staat, telt niet.** Zie `CODE_REVIEW.md`.
+- **Geen GitHub-remote of geen tweede gesprek?** In een geautomatiseerde omgeving kan er geen PR en geen aparte reviewer-sessie zijn. Minimale vervanging, in deze volgorde:
+  1. Werk nog steeds op een eigen branch per taak (`feat/<korte-naam>` of `fix/<korte-naam>`).
+  2. Draai de quality gates uit §17 op die branch.
+  3. Laat een **nieuwe sessie/context** (nieuw gesprek of `/clear`) `git diff main...HEAD` beoordelen met `CODE_REVIEW.md`. Een review in dezelfde sessie telt niet.
+  4. Schrijf het verdict met de findings naar `docs/reviews/<branch>.md`, met datum, base/head-SHA en per bevinding bestand/regel.
+  5. Verwerk de findings, draai de gates opnieuw en merge pas daarna lokaal naar `main`.
+  Dat reviewbestand is dan de zichtbare review; een losse "ziet er goed uit" in de chat telt niet.
 - Merge naar `main` → Netlify en Railway deployen automatisch. Geen eigen deploy-scripts of GitHub Actions voor deploys.
 - Migraties lokaal testen met `supabase db reset` voordat ze naar productie gaan.
 
@@ -464,19 +472,33 @@ npm run typecheck
 | **Rechten / RLS** | kan gebruiker A de data van organisatie B zien? | inloggen als twee gebruikers en vergelijken |
 | **Browser-e2e** | de hele flow door de echte UI (Playwright) | inloggen → klant aanmaken → herladen → klant staat er nog |
 
-Voorbeeld van een rechtentest (backend) — een API-test praat met de draaiende backend, dus start eerst `npm run dev:local`:
+`npm test` is hermetisch: het start geen database en geen dev-server. Een test die de lokale stack wél nodig heeft, slaat zichzelf over als die stack er niet is. Zo blijft `npm test` overal groen, ook op een machine zonder Docker.
+
+Gebruik daarvoor één vaste env-var, in dit voorbeeld `TETRA_API_URL`:
 
 ```ts
 // backend/tests/projects-access.test.ts
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-const API = 'http://localhost:3000';
+// Alleen gezet als je de lokale stack bewust hebt gestart.
+const API = process.env.TETRA_API_URL;
 
-test('weigert zonder login', async () => {
-  const res = await fetch(`${API}/api/projects`);
-  assert.equal(res.status, 401);
-});
+test(
+  'weigert zonder login',
+  { skip: API ? false : 'start npm run dev:local en zet TETRA_API_URL=http://localhost:3000' },
+  async () => {
+    const res = await fetch(`${API}/api/projects`);
+    assert.equal(res.status, 401);
+  },
+);
+```
+
+Draai je de integratietests bewust tegen de lokale stack, dan zet je die var expliciet:
+
+```bash
+npm run dev:local
+TETRA_API_URL=http://localhost:3000 npm test --workspace backend
 ```
 
 **Vuistregel:** veel unit-tests, een handvol API- en rechtentests, 3-5 cruciale browser-e2e's.
@@ -530,7 +552,7 @@ Een feature is **af** als:
 1. Het manifest (of de eigen code) werkt lokaal: frontend + backend + database.
 2. Er zijn tests op de juiste lagen, inclusief minstens één rechtentest bij een nieuwe tabel.
 3. Alle quality gates uit §17 zijn groen.
-4. De PR is gereviewd **en die review staat zichtbaar op de PR**.
+4. De PR is gereviewd **en die review staat zichtbaar op de PR**. Zonder GitHub-remote geldt het reviewbestand uit §13 (`docs/reviews/<branch>.md`).
 5. `docs/` is bijgewerkt: welke manifests voeden welke schermen, welke eigen code staat ernaast en waarom.
 6. **Je hebt het zelf getest** in de browser (werkproces 2, stap 8).
 7. Het is **gemerged naar `main`**.
@@ -668,7 +690,7 @@ De bouwer beoordeelt zichzelf zelden goed. **Start een nieuw gesprek** in de Cla
 
 > **Prompt (in het nieuwe gesprek):** Bekijk PR #1 en analyseer deze. Gebruik CODE_REVIEW.md om het te beoordelen en zet je review op de PR.
 
-De review staat zichtbaar op de PR, anders telt hij niet.
+De review staat zichtbaar op de PR, anders telt hij niet. Geen GitHub-remote of geen tweede gesprek? Gebruik de minimale vervanging uit §13.
 
 ### Stap 7 — Verwerken
 
@@ -684,7 +706,7 @@ Nu ben jij aan de beurt.
 
 > **Prompt:** Start een test server backend/frontend, zodat ik de nieuwe functionaliteit kan testen.
 
-Open de link in je browser, log in met de testgebruiker (`dev@example.com` / `password123`) en probeer het zelf. Werkt iets niet zoals je wilt? Zeg het tegen Claude en ga terug naar stap 7.
+Open de link in je browser, log in met de gebruiker uit jouw `supabase/seed.sql` (in de fresh scaffold is dat de voorbeeldgebruiker `dev@example.com` / `password123`) en probeer het zelf. Werkt iets niet zoals je wilt? Zeg het tegen Claude en ga terug naar stap 7.
 
 ### Stap 9 — Merge / live
 
