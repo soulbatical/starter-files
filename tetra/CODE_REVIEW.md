@@ -36,6 +36,15 @@ gh pr checkout <nummer>             # branch lokaal uitchecken om te draaien
 
 Geen `gh`? Gebruik de GitHub-koppeling (plugin) of lees de diff via het "Files changed"-tabblad op GitHub. Lees élke gewijzigde regel.
 
+**Geen GitHub-remote (bijvoorbeeld een geautomatiseerde omgeving)?** Dan is er geen PR om op te reviewen. Minimale vervanging:
+
+```bash
+git switch <branch-van-de-taak>
+git diff main...HEAD
+```
+
+Review die diff met dit document. Schrijf je verdict als `docs/reviews/<branch>.md`, met datum, base/head-SHA en per bevinding bestand/regel. Dat bestand is de zichtbare review; een akkoord in de chat telt niet. De bouwer verwerkt het bestand en draait daarna de gates opnieuw. Zie `PROJECT_SETUP.md` §13 voor de volledige volgorde.
+
 Controleer meteen:
 - Komt de PR van een **eigen branch** voor deze taak en staat hij open tegen **`main`**?
 - Is het **één concern**?
@@ -236,7 +245,7 @@ Staat een fout in Tetra en heeft de cursist er een tijdelijke omweg omheen gebou
 
 ---
 
-## 14. Schrijf het eindoordeel — findings-first, op de PR
+## 14. Schrijf het eindoordeel — findings-first, op de PR (of in `docs/reviews/`)
 
 Kies één verdict:
 - ✅ **APPROVE** — geen blockers, hooguit nits.

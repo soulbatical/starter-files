@@ -10,7 +10,7 @@ Kies zelf een bedrijf dat je kent (de bloemenwinkel van je oom, een schilder, ee
 
 ## Wat de app minimaal kan
 
-1. Inloggen, met twee rollen: **eigenaar** (Tetra-rol `owner`, mag alles) en **medewerker** (Tetra-rol `member`, mag klanten en klussen zien en bijwerken, niet verwijderen). De testdata heeft één gebruiker (`dev@example.com`); laat Claude een tweede testgebruiker als medewerker toevoegen aan `supabase/seed.sql`.
+1. Inloggen, met twee rollen: **eigenaar** (Tetra-rol `owner`, mag alles) en **medewerker** (Tetra-rol `member`, mag klanten en klussen zien en bijwerken, niet verwijderen). De scaffold-seed heeft één voorbeeldgebruiker (`dev@example.com`) bij de voorbeeldmodule; die verdwijnt zodra je je eigen manifests en `supabase/seed.sql` gebruikt. Laat Claude je eigen seed maken met een eigenaar én een medewerker in `supabase/seed.sql`, en log daarna met die gebruikers in.
 2. **Klanten** bijhouden: naam, contactgegevens, notities.
 3. **Offertes of klussen** per klant, met een status (bijvoorbeeld: nieuw → offerte → gepland → klaar).
 4. Een overzicht waarin je kunt **zoeken en filteren**.
@@ -35,7 +35,7 @@ Meer mag, maar pas als dit werkt en live staat.
 2. Claude maakt een plan (Plan Mode) — Tetra eerst
 3. Claude bouwt (TDD-light)
 4. Claude test zelf
-5. Commit + pull request
+5. Commit + pull request (geen GitHub-remote? eigen branch + reviewbestand, zie `PROJECT_SETUP.md` §13)
 6. Tweede AI reviewt de PR in een nieuw gesprek, met `CODE_REVIEW.md`
 7. De bouwer verwerkt de review
 8. **Jij test zelf** in de browser
@@ -45,7 +45,7 @@ Meer mag, maar pas als dit werkt en live staat.
 
 - [ ] Je bent ingelogd als eigenaar én als medewerker, en de medewerker kán echt niets verwijderen (ook niet via een omweg — laat Claude dat testen).
 - [ ] Je hebt een klant met een offerte aangemaakt, de pagina herladen, en alles staat er nog.
-- [ ] Elke PR heeft een zichtbare review.
+- [ ] Elke PR heeft een zichtbare review. Zonder GitHub-remote: het reviewbestand uit `PROJECT_SETUP.md` §13 (`docs/reviews/<branch>.md`).
 - [ ] De app staat live en je hebt hem **met eigen ogen** op de live-URL gezien.
 - [ ] In `docs/PRD.md` staat welke Tetra-modules je gebruikt en waar je zelf code schreef (met reden).
 
